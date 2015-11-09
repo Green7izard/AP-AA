@@ -1,9 +1,10 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NumberPartitions {
 
-    private static final int NUMBER =5;
+    private static final int NUMBER =10;
 
     public static void main(String[] args) {
         int number;
@@ -12,24 +13,17 @@ public class NumberPartitions {
         }catch(Exception e){
             number=NUMBER;
         }
-        System.out.println("Running with number: "+number);
+        System.out.println("Running with number: " + number);
 
-        ArrayList< ArrayList<Integer> > possiblilities = new ArrayList< ArrayList<Integer> >(number);
+        ArrayList< int[] > possibilities = new ArrayList< int[] >(number);
 
-        ArrayList<Integer> base = new ArrayList<Integer>(number);
-        for(int counter=0; counter<number; counter++)
-        {
-            base.add(1);
-        }
-        possiblilities.add(base);
-
-
+        partition(number, number, possibilities, new ArrayList<Integer>());
 
         //PRINT
-        for(ArrayList<Integer> results: possiblilities)
+        for(int[] results: possibilities)
         {
             boolean first = true;
-            for(Integer result: results)
+            for(int result: results)
             {
                 if(!first) {
                     System.out.print("+");
@@ -41,6 +35,28 @@ public class NumberPartitions {
         }
     }
 
+    public static void partition(int n, int max, List<int[]> output, ArrayList<Integer> current) {
+        if (n == 0) {
+            output.add(toArray(current));
+            return;
+        }
+
+        for (int i = Math.min(max, n); i >= 1; i--) {
+            ArrayList<Integer> temp = (ArrayList<Integer>)current.clone();
+            temp.add(i);
+            partition(n - i, i, output, temp);
+        }
+    }
+
+    public static int[] toArray(List<Integer> numbers)
+    {
+        int list[] = new int[numbers.size()];
+        for(int i = 0; i<numbers.size();i++)
+        {
+            list[i]=numbers.get(i);
+        }
+        return list;
+    }
 
 
 }
