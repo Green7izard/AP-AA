@@ -17,7 +17,7 @@ public class NumberPartitions {
 
         ArrayList< int[] > possibilities = new ArrayList< int[] >(number);
 
-        partition(number, number, possibilities, new ArrayList<Integer>());
+        partition(number, number, possibilities, null);
 
         //PRINT
         for(int[] results: possibilities)
@@ -36,6 +36,11 @@ public class NumberPartitions {
     }
 
     public static void partition(int n, int max, List<int[]> output, ArrayList<Integer> current) {
+        if(current==null)
+        {
+            partition(n, max, output, new ArrayList<Integer>());
+            return;
+        }
         if (n == 0) {
             output.add(toArray(current));
             return;

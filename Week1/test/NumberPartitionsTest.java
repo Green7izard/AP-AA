@@ -28,7 +28,7 @@ public class NumberPartitionsTest {
     @Test
     public void testPartitionsTwo(){
         ArrayList< int[] > possibilities = new ArrayList< int[] >(1);
-        NumberPartitions.partition(2, 2, possibilities, new ArrayList<Integer>());
+        NumberPartitions.partition(2, 2, possibilities, null);
         assertEquals(2, possibilities.size());
         assertEquals(1, possibilities.get(0).length);
         assertEquals(2, possibilities.get(0)[0]);
