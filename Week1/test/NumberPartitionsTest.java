@@ -12,8 +12,7 @@ public class NumberPartitionsTest {
     public void testPartitionsZero(){
         ArrayList< int[] > possibilities = new ArrayList< int[] >(0);
         NumberPartitions.partition(0, 0, possibilities, new ArrayList<Integer>());
-        assertEquals(1, possibilities.size());
-        assertEquals(0, possibilities.get(0).length);
+        assertEquals(0, possibilities.size());
     }
 
     @Test

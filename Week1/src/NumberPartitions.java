@@ -41,8 +41,10 @@ public class NumberPartitions {
             partition(n, max, output, new ArrayList<Integer>());
             return;
         }
-        if (n == 0) {
-            output.add(toArray(current));
+        if (n <= 0) {
+            if(!current.isEmpty()){
+                output.add(toArray(current));
+            }
             return;
         }
 
