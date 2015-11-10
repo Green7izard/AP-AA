@@ -18,12 +18,13 @@ public class NumberPartitions
         }
         System.out.println("Running with number: " + number);
 
-        ArrayList<int[]> possibilities = new ArrayList<int[]>(number);
+        List<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>(number);
 
-        partition(number, number, possibilities, null);
+        //Get the partitions
+        partition(possibilities, number, number, null);
 
         //PRINT
-        for (int[] results : possibilities)
+        for (List<Integer> results : possibilities)
         {
             boolean first = true;
             for (int result : results)
@@ -39,18 +40,18 @@ public class NumberPartitions
         }
     }
 
-    public static void partition(int n, int max, List<int[]> output, ArrayList<Integer> current)
+    public static void partition(List<ArrayList<Integer>> output, int n, int max, ArrayList<Integer> current)
     {
         if (current == null)
         {
-            partition(n, max, output, new ArrayList<Integer>());
+            partition(output, n, max, new ArrayList<Integer>());
             return;
         }
         if (n <= 0)
         {
             if (! current.isEmpty())
             {
-                output.add(toArray(current));
+                output.add(current);
             }
             return;
         }
@@ -59,19 +60,7 @@ public class NumberPartitions
         {
             ArrayList<Integer> temp = (ArrayList<Integer>) current.clone();
             temp.add(i);
-            partition(n - i, i, output, temp);
+            partition(output, n - i, i, temp);
         }
     }
-
-    public static int[] toArray(List<Integer> numbers)
-    {
-        int list[] = new int[numbers.size()];
-        for (int i = 0; i < numbers.size(); i++)
-        {
-            list[i] = numbers.get(i);
-        }
-        return list;
-    }
-
-
 }

@@ -1,6 +1,7 @@
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,45 +13,45 @@ public class NumberPartitionsTest
     @Test
     public void testPartitionsZero()
     {
-        ArrayList<int[]> possibilities = new ArrayList<int[]>(0);
-        NumberPartitions.partition(0, 0, possibilities, new ArrayList<Integer>());
+        List<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>(0);
+        NumberPartitions.partition(possibilities, 0, 0, new ArrayList<Integer>());
         assertEquals(0, possibilities.size());
     }
 
     @Test
     public void testPartitionsOne()
     {
-        ArrayList<int[]> possibilities = new ArrayList<int[]>(1);
-        NumberPartitions.partition(1, 1, possibilities, new ArrayList<Integer>());
+        List<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>(1);
+        NumberPartitions.partition(possibilities, 1, 1, new ArrayList<Integer>());
         assertEquals(1, possibilities.size());
-        assertEquals(1, possibilities.get(0).length);
-        assertEquals(1, possibilities.get(0)[0]);
+        assertEquals(1, possibilities.get(0).size());
+        assertEquals(1, possibilities.get(0).get(0).intValue());
     }
 
     @Test
     public void testPartitionsTwo()
     {
-        ArrayList<int[]> possibilities = new ArrayList<int[]>(1);
-        NumberPartitions.partition(2, 2, possibilities, null);
+        List<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>(2);
+        NumberPartitions.partition(possibilities, 2, 2, null);
         assertEquals(2, possibilities.size());
-        assertEquals(1, possibilities.get(0).length);
-        assertEquals(2, possibilities.get(0)[0]);
+        assertEquals(1, possibilities.get(0).size());
+        assertEquals(2, possibilities.get(0).get(0).intValue());
 
-        assertEquals(2, possibilities.get(1).length);
-        assertEquals(1, possibilities.get(1)[0]);
+        assertEquals(2, possibilities.get(1).size());
+        assertEquals(1, possibilities.get(1).get(0).intValue());
     }
 
     @Test
     public void testPartitionsFive()
     {
-        ArrayList<int[]> possibilities = new ArrayList<int[]>(1);
-        NumberPartitions.partition(5, 5, possibilities, new ArrayList<Integer>());
+        List<ArrayList<Integer>> possibilities = new ArrayList<ArrayList<Integer>>(5);
+        NumberPartitions.partition(possibilities, 5, 5, new ArrayList<Integer>());
         assertEquals(7, possibilities.size());
-        assertEquals(1, possibilities.get(0).length);
-        assertEquals(5, possibilities.get(0)[0]);
+        assertEquals(1, possibilities.get(0).size());
+        assertEquals(5, possibilities.get(0).get(0).intValue());
 
-        assertEquals(5, possibilities.get(6).length);
-        assertEquals(1, possibilities.get(6)[0]);
-        assertEquals(1, possibilities.get(6)[4]);
+        assertEquals(5, possibilities.get(6).size());
+        assertEquals(1, possibilities.get(6).get(0).intValue());
+        assertEquals(1, possibilities.get(6).get(4).intValue());
     }
 }
