@@ -1,4 +1,3 @@
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -18,25 +17,26 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     protected KeyValuePair<K, V> getPair(K key)
     {
-        if(root instanceof Node)
+        if (root instanceof Node)
         {
-            Node<K,V> node = (Node<K, V>) root;
+            Node<K, V> node = (Node<K, V>) root;
             return (KeyValuePair<K, V>) node.getHolder(key);
-        }
-        else if(root instanceof KeyValuePair && root.containsKey(key))
+        } else if (root instanceof KeyValuePair && root.containsKey(key))
         {
             return (KeyValuePair<K, V>) root;
+        } else
+        {
+            return null;
         }
-        else return null;
     }
 
 
     public int size()
     {
-        if(root == null)
+        if (root == null)
         {
             return 0;
-        }else
+        } else
         {
             return root.size();
         }
@@ -45,7 +45,7 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public boolean isEmpty()
     {
-        return root ==null;
+        return root == null;
     }
 
 
@@ -69,12 +69,12 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
     {
         try
         {
-            if(root instanceof KeyValuePair && root.containsKey((K) key))
+            if (root instanceof KeyValuePair && root.containsKey((K) key))
             {
-                return ((KeyValuePair<K,V>)root).getValue();
-            }
-            else{
-                return ((Node<K,V>) root).get((K) key);
+                return ((KeyValuePair<K, V>) root).getValue();
+            } else
+            {
+                return ((Node<K, V>) root).get((K) key);
             }
         } catch (ClassCastException e)
         {
@@ -85,71 +85,143 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public V put(K key, V value)
     {
-        if(root==null)
+        if (root == null)
         {
             root = new KeyValuePair<K, V>(key, value);
             return null;
-        }
-        else if(root instanceof KeyValuePair)
+        } else if (root instanceof KeyValuePair)
         {
-            KeyValuePair<K,V> pair = (KeyValuePair<K, V>) root;
-            if(pair.containsKey(key))
+            KeyValuePair<K, V> pair = (KeyValuePair<K, V>) root;
+            if (pair.containsKey(key))
             {
                 return pair.setValue(value);
-            }
-            else
+            } else
             {
-                root =  mergeKeys(pair, new KeyValuePair<K, V>(key, value));
+                root = mergeKeys(pair, new KeyValuePair<K, V>(key, value));
                 return null;
             }
-        }
-        else if(root instanceof Node){
-            Node<K,V> node = (Node<K, V>) root;
+        } else if (root instanceof Node)
+        {
+            Node<K, V> node = (Node<K, V>) root;
             TreeElement element;
-            do{
+            do
+            {
                 element = node.getNextTreeElement(key);
-                if(element ==null)
+                if (element == null)
                 {
-                    node.addAddLocation(new KeyValuePair<K,V>(key, value),node.getLocationForElement(key));
+                    nodeMerge((Node<K, V>) root, node, new KeyValuePair<K, V>(key, value));
                     return null;
-                }
-                else if(element instanceof KeyValuePair)
+                } else if (element instanceof KeyValuePair)
                 {
-                    KeyValuePair<K,V> keyvalue = (KeyValuePair<K, V>) element;
-                    if(keyvalue.containsKey(key))
+                    KeyValuePair<K, V> keyvalue = (KeyValuePair<K, V>) element;
+                    if (keyvalue.containsKey(key))
                     {
                         return keyvalue.setValue(value);
-                    }
-                    else
+                    } else
                     {
-                        node.addAddLocation(mergeKeys(keyvalue, new KeyValuePair<K,V>(key, value)),node.getLocationForElement(key));
+                        node.addAtLocation(mergeKeys(keyvalue, new KeyValuePair<K, V>(key, value)), node.getLocationForElement(key));
                         return null;
                     }
-                }
-                else if(element instanceof Node)
+                } else if (element instanceof Node)
                 {
-                    node= (Node<K, V>) element;
-                    if(node.hasKeyInNodes(key))
+                    node = (Node<K, V>) element;
+                    if (node.hasKeyInNodes(key))
                     {
-                       return ((KeyValuePair<K,V>)node.getHolder(key)).setValue(value);
+                        return ((KeyValuePair<K, V>) node.getHolder(key)).setValue(value);
                     }
                 }
 
-            }while(node!=null);
+            } while (node != null);
         }
 
         return null;
     }
 
-    private Node<K,V> mergeKeys(KeyValuePair a, KeyValuePair b)
+    private void nodeMerge(Node<K, V> oldRoot, Node<K, V> node, KeyValuePair<K, V> newPair)
     {
-        Node<K,V> node= new Node<K,V>(nodeSize);
-        if(a.compareTo(b)>0)
+        //Node isnt full, fill it further
+        if (! node.isFull())
+        {
+            node.addInnerNode(newPair);
+        } else
+        {
+            //node is full, start splitting it!
+            List<Node<K, V>> path = new ArrayList<Node<K, V>>();
+            path.add(oldRoot);
+            do
+            {
+                System.out.println("Adding " + node);
+                Node<K,V> aPart = (Node<K, V>) path.get(path.size() - 1).getNextTreeElement(newPair.getKey());
+                if(aPart!=null)
+                {
+                    path.add(aPart);
+                }
+            }while (!path.contains(node));
+            path.remove(node);
+            KeyValuePair<K, V>[] oldNodes = node.nodes;
+            int number = (oldNodes.length - 1) / 2;
+            int location;
+            Node<K, V> newNode;
+            do
+            {
+                System.out.println("Size = " + path.size());
+                if (path.size() == 0)
+                {
+                    newNode = new Node<K, V>(nodeSize);
+                    if (oldNodes.length % 2 == 0)
+                    {//evens
+                        mergeChildren(newNode, 0, node, 0, number-1);
+                        newNode.addInnerNode(oldNodes[number]);
+                        mergeChildren(newNode, 1, node, number, number);
+                        newNode.addInnerNode(oldNodes[number + 1]);
+                        mergeChildren(newNode, 2, node, number+1, oldNodes.length);
+
+                    } else
+                    {//Uneven
+                        mergeChildren(newNode, 0, node, 0, number-1);
+                        newNode.addInnerNode(oldNodes[number + 1]);
+                        mergeChildren(newNode, 1, node, number, oldNodes.length);
+                    }
+                    root = newNode;
+                    path.remove(root);
+
+                } else
+                {
+                    newNode = path.get(path.size()-1);
+                    location = newNode.getLocationForElement(oldNodes[number].getKey());
+                    System.out.println(location);
+
+                    path.remove(newNode);
+                }
+            }while(path.size()>0);
+
+
+        }
+    }
+
+    private void mergeChildren(Node<K, V> node, int newLocation, Node<K, V> oldNode, int start, int stop)
+    {
+        Node<K,V> newestNode = new Node<K,V>(nodeSize);
+        for(int i = start; i<=stop;i++)
+        {
+            if(i<oldNode.nodes.length)
+            {
+                newestNode.addInnerNode(oldNode.nodes[i]);
+            }
+            newestNode.children[i]=oldNode.children[i];
+        }
+        node.children[newLocation]=newestNode;
+    }
+
+
+    private Node<K, V> mergeKeys(KeyValuePair a, KeyValuePair b)
+    {
+        Node<K, V> node = new Node<K, V>(nodeSize);
+        if (a.compareTo(b) > 0)
         {
             node.addInnerNode(a);
             node.addInnerNode(b);
-        }
-        else
+        } else
         {
             node.addInnerNode(b);
             node.addInnerNode(a);
@@ -175,7 +247,7 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public void clear()
     {
-        if(root instanceof Node)
+        if (root instanceof Node)
         {
             ((Node) root).clear();
         }

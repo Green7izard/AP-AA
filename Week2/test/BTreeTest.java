@@ -49,14 +49,17 @@ public class BTreeTest
 
     @Test
     public void additionMultipleTreesTest(){
-        int number = 5000;
+        int number = 50;
         for(int i = 0; i<number;i++)
         {
-            assertNull(tree.put(i, i+""));
+            System.out.println(i);
+            assertNull(tree.put(i, i + ""));
         }
+        System.out.println("Added All");
         assertEquals(number, tree.size());
         for(int i = 0; i<number;i++)
         {
+            System.out.println("Get: "+ i);
             String s = tree.get(i);
             assertNotNull(s);
             assertEquals(i + "", s);

@@ -1,4 +1,3 @@
-import sun.reflect.generics.tree.Tree;
 
 /**
  * Created by Bas on 25-11-2015.
@@ -61,7 +60,7 @@ public class Node<K extends Comparable, V> implements TreeElement<K, V>
         return -1;
     }
 
-    public void addAddLocation(TreeElement<K, V> element,int location)
+    public void addAtLocation(TreeElement<K, V> element, int location)
     {
         children[location]=element;
     }
