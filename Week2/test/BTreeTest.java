@@ -21,6 +21,22 @@ public class BTreeTest
     }
 
     @Test
+    public void singleTest(){
+        assertNull(tree.put(20, "2"));
+        assertEquals(1, tree.size());
+        assertEquals("2", tree.get(20));
+    }
+
+    @Test
+    public void doubleTest(){
+        assertNull(tree.put(20, "2"));
+        assertNull(tree.put(25, "3"));
+        assertEquals(2, tree.size());
+        assertEquals("2", tree.get(20));
+        assertEquals("3", tree.get(25));
+    }
+
+    @Test
     public void additionTest(){
         assertNull(tree.put(20, "2"));
         assertNull(tree.put(30, "2"));
@@ -43,7 +59,7 @@ public class BTreeTest
         {
             String s = tree.get(i);
             assertNotNull(s);
-            assertEquals(i+"", s);
+            assertEquals(i + "", s);
         }
     }
 

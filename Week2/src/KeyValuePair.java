@@ -3,7 +3,7 @@ import java.security.KeyStore;
 /**
  * Created by Bas on 25-11-2015.
  */
-public class KeyValuePair<K extends Comparable, V> implements Comparable<Comparable>, KeyStore.Entry
+public class KeyValuePair<K extends Comparable, V> implements TreeElement<K, V>, KeyStore.Entry, Comparable<Comparable>
 {
     //The key, should never be replaced
     private final K key;
@@ -64,5 +64,59 @@ public class KeyValuePair<K extends Comparable, V> implements Comparable<Compara
         V old = value;
         value = newValue;
         return old;
+    }
+
+    @Override
+    public boolean hasChildren()
+    {
+        return false;
+    }
+
+    @Override
+    public TreeElement<K, V>[] getChildren()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean isEmpty()
+    {
+        return value == null;
+    }
+
+    @Override
+    public boolean isFull()
+    {
+        return !isEmpty();
+    }
+
+    @Override
+    public int size()
+    {
+        return 1;
+    }
+
+    @Override
+    public boolean containsKey(K key)
+    {
+        try
+        {
+            return this.compareTo(key) == 0;
+        } catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    @Override
+    public TreeElement<K, V> getHolder(K key)
+    {
+        if (this.containsKey(key))
+        {
+            return this;
+        } else
+        {
+            return null;
+        }
     }
 }

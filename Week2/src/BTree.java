@@ -1,7 +1,7 @@
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Created by Bas on 25-11-2015.
@@ -9,83 +9,43 @@ import java.util.function.Function;
 public class BTree<K extends Comparable, V> //implements Map<K, V>
 {
     private final int nodeSize;
-    private List<KeyValuePair<K, V>> nodes;
-    private List<BTree<K, V>> subtrees;
+    private TreeElement root;
 
     public BTree(int size)
     {
         this.nodeSize = size;
-        nodes = new ArrayList<KeyValuePair<K, V>>(nodeSize);
-        subtrees = new ArrayList<BTree<K, V>>(nodeSize + 1);
-    }
-
-    protected boolean hasKeyInNodes(K key)
-    {
-        for (KeyValuePair<K, V> pair : nodes)
-        {
-            if (pair.compareTo(key) == 0)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected BTree<K, V> getNextTree(K key)
-    {
-        for (int i = 0; i < nodes.size(); i++)
-        {
-            int comparison = nodes.get(i).compareTo(key);
-            if (comparison == 0)
-            {
-                System.out.println("I have it! " + key);
-                return this;
-            } else if (comparison > 0)
-            {
-                return subtrees.get(i);
-            } else if (comparison < 0 && i == (nodeSize - 1))
-            {
-                return subtrees.get(i + 1);
-            }
-        }
-        return null;
     }
 
     protected KeyValuePair<K, V> getPair(K key)
     {
-        BTree<K, V> tree = this;
-        while (! tree.hasKeyInNodes(key) && tree != null)
+        if(root instanceof Node)
         {
-            tree = tree.getNextTree(key);
+            Node<K,V> node = (Node<K, V>) root;
+            return (KeyValuePair<K, V>) node.getHolder(key);
         }
-        if (tree != null)
+        else if(root instanceof KeyValuePair && root.containsKey(key))
         {
-            for (KeyValuePair<K, V> pair : tree.nodes)
-            {
-                if (pair.compareTo(key) == 0)
-                {
-                    return pair;
-                }
-            }
+            return (KeyValuePair<K, V>) root;
         }
-        return null;
+        else return null;
     }
 
 
     public int size()
     {
-        int size = 0;
-        for (BTree<K, V> subtree : subtrees)
+        if(root == null)
         {
-            size += subtree.size();
+            return 0;
+        }else
+        {
+            return root.size();
         }
-        return nodes.size() + size;
     }
 
 
     public boolean isEmpty()
     {
-        return nodes.isEmpty();
+        return root ==null;
     }
 
 
@@ -93,19 +53,7 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
     {
         try
         {
-            K key = (K) aKey;
-            BTree<K, V> tree = this;
-            do
-            {
-                if (tree.hasKeyInNodes(key))
-                {
-                    return true;
-                } else
-                {
-                    tree.getNextTree(key);
-                }
-            } while (tree != null);
-            return false;
+            return root.containsKey((Comparable) aKey);
         } catch (ClassCastException e)
         {
             return false;
@@ -121,7 +69,13 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
     {
         try
         {
-            return getPair((K) key).getValue();
+            if(root instanceof KeyValuePair && root.containsKey((K) key))
+            {
+                return ((KeyValuePair<K,V>)root).getValue();
+            }
+            else{
+                return ((Node<K,V>) root).get((K) key);
+            }
         } catch (ClassCastException e)
         {
             return null;
@@ -131,47 +85,76 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public V put(K key, V value)
     {
-        BTree<K, V> next = this;
-        BTree<K, V> tree;
-        do
+        if(root==null)
         {
-            tree = next;
-            if (tree.hasKeyInNodes(key))
+            root = new KeyValuePair<K, V>(key, value);
+            return null;
+        }
+        else if(root instanceof KeyValuePair)
+        {
+            KeyValuePair<K,V> pair = (KeyValuePair<K, V>) root;
+            if(pair.containsKey(key))
             {
-                return tree.getPair(key).setValue(value);
-            } else if (tree.nodes.size() < nodeSize)
+                return pair.setValue(value);
+            }
+            else
             {
-                if (tree.nodes.size() > 0)
+                root =  mergeKeys(pair, new KeyValuePair<K, V>(key, value));
+                return null;
+            }
+        }
+        else if(root instanceof Node){
+            Node<K,V> node = (Node<K, V>) root;
+            TreeElement element;
+            do{
+                element = node.getNextTreeElement(key);
+                if(element ==null)
                 {
-                    for (int i = 0; i < tree.nodes.size(); i++)
-                    {
-                        //Add to the nodes list at a location;
-                        //Shift the subtrees
-                        if (tree.nodes.get(i).compareTo(key) > 0)
-                        {
-                            tree.nodes.add(i, new KeyValuePair<K, V>(key, value));
-                            tree.subtrees.add(i, new BTree<K, V>(nodeSize));
-                            return null;
-                        } else if (i == tree.nodes.size() - 1)
-                        {
-                            tree.nodes.add(new KeyValuePair<K, V>(key, value));
-                            tree.subtrees.add(new BTree<K, V>(nodeSize));
-                            return null;
-                        }
-
-                    }
-                } else
-                {
-                    tree.nodes.add(new KeyValuePair<K, V>(key, value));
-                    tree.subtrees.add(new BTree<K, V>(nodeSize));
-                    tree.subtrees.add(new BTree<K, V>(nodeSize));
+                    node.addAddLocation(new KeyValuePair<K,V>(key, value),node.getLocationForElement(key));
                     return null;
                 }
-            }
-            next = tree.getNextTree(key);
-        } while (next != null && ! tree.equals(next));
+                else if(element instanceof KeyValuePair)
+                {
+                    KeyValuePair<K,V> keyvalue = (KeyValuePair<K, V>) element;
+                    if(keyvalue.containsKey(key))
+                    {
+                        return keyvalue.setValue(value);
+                    }
+                    else
+                    {
+                        node.addAddLocation(mergeKeys(keyvalue, new KeyValuePair<K,V>(key, value)),node.getLocationForElement(key));
+                        return null;
+                    }
+                }
+                else if(element instanceof Node)
+                {
+                    node= (Node<K, V>) element;
+                    if(node.hasKeyInNodes(key))
+                    {
+                       return ((KeyValuePair<K,V>)node.getHolder(key)).setValue(value);
+                    }
+                }
+
+            }while(node!=null);
+        }
 
         return null;
+    }
+
+    private Node<K,V> mergeKeys(KeyValuePair a, KeyValuePair b)
+    {
+        Node<K,V> node= new Node<K,V>(nodeSize);
+        if(a.compareTo(b)>0)
+        {
+            node.addInnerNode(a);
+            node.addInnerNode(b);
+        }
+        else
+        {
+            node.addInnerNode(b);
+            node.addInnerNode(a);
+        }
+        return node;
     }
 
 
@@ -192,12 +175,11 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public void clear()
     {
-        nodes.clear();
-        for (BTree<K, V> subtree : subtrees)
+        if(root instanceof Node)
         {
-            subtree.clear();
+            ((Node) root).clear();
         }
-        subtrees.clear();
+        root = null;
     }
 
 
