@@ -1,7 +1,8 @@
 /**
  * Created by Remco on 25-11-2015.
  */
-public class SudokuBord {
+public class SudokuBord
+{
     int size;
     NumberBox[][] bord;
     Block[] blocks;
@@ -17,132 +18,166 @@ public class SudokuBord {
 
     void createBlocks()
     {
-        for(int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
         {
             blocks[i] = new Block();
         }
     }
 
-    void createBord(){
-        for(int row = 0; row < size; row++){
-            for(int column = 0; column < size; column++)
+    void createBord()
+    {
+        for (int row = 0; row < size; row++)
+        {
+            for (int column = 0; column < size; column++)
             {
-                int blockNumber = 0;
                 bord[row][column] = new NumberBox();
-                if(row < 3)
-                {
-                    if(column < 3)
-                    {
-                        blockNumber = 0;
-                    }
-                    if(column > 5)
-                    {
-                        blockNumber = 2;
-                    }
-                    else
-                    {
-                        blockNumber = 1;
-                    }
-                }
-                if(row > 5)
-                {
-                    if(column < 3)
-                    {
-                        blockNumber = 6;
-                    }
-                    if(column > 5)
-                    {
-                        blockNumber = 7;
-                    }
-                    else
-                    {
-                        blockNumber = 8;
-                    }
-                }
-                else
-                {
-                    if(column < 3)
-                    {
-                        blockNumber = 3;
-                    }
-                    if(column > 5)
-                    {
-                        blockNumber = 4;
-                    }
-                    else
-                    {
-                        blockNumber = 5;
-                    }
-                }
-                blocks[blockNumber].addNumber(bord[row][column]);
+                blocks[getBlock(row, column)].addNumber(bord[row][column]);
             }
         }
     }
 
-    void setValue(int row, int column, int value, boolean isStartValue)
+    int getBlock(int row, int column)
     {
-        bord[row - 1][column - 1].setValue(value, isStartValue);
+        int blockNumber;
+        if (row < 3)
+        {
+            if (column < 3)
+            {
+                blockNumber = 0;
+            } else if (column > 5)
+            {
+                blockNumber = 2;
+            } else
+            {
+                blockNumber = 1;
+            }
+        } else if (row > 5)
+        {
+            if (column < 3)
+            {
+                blockNumber = 6;
+            } else if (column > 5)
+            {
+                blockNumber = 7;
+            } else
+            {
+                blockNumber = 8;
+            }
+        } else
+        {
+            if (column < 3)
+            {
+                blockNumber = 3;
+            } else if (column > 5)
+            {
+                blockNumber = 4;
+            } else
+            {
+                blockNumber = 5;
+            }
+        }
+        return blockNumber;
     }
 
-    int getValue(int row, int column)
+    void setValue(int row, int column, int value, boolean isStartValue)
+    {
+        bord[row][column].setValue(value, isStartValue);
+    }
+
+    Integer getValue(int row, int column)
     {
         return bord[row][column].getValue();
     }
 
-    void increaseValue(int row, int column)
+    boolean isDefaultNumber(int row, int column)
     {
-        bord[row - 1][column - 1].increaseValue();
+        if (bord[row][column].isStartValue)
+        {
+            return true;
+        }
+        return false;
     }
 
     boolean isValidValue(int row, int column, int value)
     {
         boolean isValid = true;
-        if(bord[row][column].isStartValue)
-        {
-            isValid = false;
-        }
-        for(int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++)
         {
             if (bord[row][i].isEqual(value))
             {
-                isValid = false;
-                break;
+                return false;
             }
         }
-        for(int i = 0; i < size; i++)
-            if(bord[i][column].isEqual(value))
+        for (int i = 0; i < size; i++)
+        {
+            if (bord[i][column].isEqual(value))
             {
-                isValid = false;
-                break;
+                return false;
             }
-        for(int i = 0; i < size; i++)
-            if(blocks[i].doesContain(value))
+        }
+        for (int i = 0; i < size; i++)
+        {
+            if (blocks[getBlock(row, column)].doesContain(value))
             {
-                isValid = false;
-                break;
+                return false;
             }
-        return isValid;
+        }
+        return true;
     }
 
-    void printValues(){
-        for(int row = 0; row < size; row++){
+    void printValues()
+    {
+        int rowCounter = 0;
+        int columnCounter = 0;
 
-            System.out.print("+ - + - + - + - + - + - + - + - + - +\n");
-            System.out.print("|");
-
-            for(int column = 0; column < size; column++){
-                if(bord[row][column].getValue() == null)
-                {
-                    System.out.print("   ");
-                }
-                else
-                {
-                    System.out.print(" " + bord[row][column].getValue() + " ");
-                }
-                System.out.print("|");
+        for (int row = 0; row < size; row++)
+        {
+            if (rowCounter % 3 == 0)
+            {
+                printNormalText("+ - + - + - + - + - + - + - + - + - +\n");
+            } else
+            {
+                printNormalText("+ ");
+                printColoredText("- + - + -");
+                printNormalText(" + ");
+                printColoredText("- + - + -");
+                printNormalText(" + ");
+                printColoredText("- + - + -");
+                printNormalText(" +\n");
             }
-            System.out.print("\n");
+            rowCounter++;
+            printNormalText("|");
+
+            for (int column = 0; column < size; column++)
+            {
+                if (bord[row][column].getValue() == null)
+                {
+                    printColoredText("   ");
+                } else
+                {
+                    printNormalText(" " + bord[row][column].getValue() + " ");
+                }
+                if ((columnCounter + 1) % 3 == 0)
+                {
+                    printNormalText("|");
+                } else
+                {
+                    printColoredText("|");
+                }
+                columnCounter ++;
+            }
+            printColoredText("\n");
         }
-        System.out.print("+ - + - + - + - + - + - + - + - + - +");
+        printNormalText("+ - + - + - + - + - + - + - + - + - +\n\n");
+    }
+
+    void printNormalText(String text)
+    {
+        System.out.print(text);
+    }
+
+    void printColoredText(String text)
+    {
+        System.out.print("\033[36m" + text + "\033[0m");
     }
 }

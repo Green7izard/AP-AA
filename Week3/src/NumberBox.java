@@ -1,13 +1,20 @@
 /**
  * Created by Remco on 25-11-2015.
  */
-public class NumberBox {
+public class NumberBox
+{
     Integer value;
-    boolean isStartValue = false;
+    boolean isStartValue;
 
     void setValue(int newValue, boolean newIsStartValue)
     {
-        value = newValue;
+        if (newValue == 0)
+        {
+            value = null;
+        }
+        else{
+            value = newValue;
+        }
         isStartValue = newIsStartValue;
     }
 
@@ -23,14 +30,17 @@ public class NumberBox {
 
     void increaseValue()
     {
-        value ++;
+        value++;
     }
 
     boolean isEqual(int otherValue)
     {
-        if(value == otherValue)
+        if (value != null)
         {
-            return true;
+            if (value == otherValue)
+            {
+                return true;
+            }
         }
         return false;
     }
