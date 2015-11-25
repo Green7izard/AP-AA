@@ -33,7 +33,7 @@ public class BTreeTest
 
     @Test
     public void additionMultipleTreesTest(){
-        int number = 5000;
+        int number = 6000;
         for(int i = 0; i<number;i++)
         {
             assertNull(tree.put(i, i+""));

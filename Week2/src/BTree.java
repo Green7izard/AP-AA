@@ -201,19 +201,6 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
     }
 
 
-    public Set<K> keySet()
-    {
-        //TODO
-        return null;
-    }
-
-
-    public Collection<V> values()
-    {
-        //TODO
-        return null;
-    }
-
 
     public V getOrDefault(Object key, V defaultValue)
     {
@@ -225,29 +212,6 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
         return value;
     }
 
-
-    public void forEach(BiConsumer<? super K, ? super V> action)
-    {
-
-    }
-
-    public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function)
-    {
-
-    }
-
-
-    public V putIfAbsent(K key, V value)
-    {
-        return null;
-    }
-
-
-    public boolean remove(Object key, Object value)
-    {
-        //TODO
-        return false;
-    }
 
 
     public boolean replace(K key, V oldValue, V newValue)
