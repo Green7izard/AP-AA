@@ -1,23 +1,47 @@
 /**
  * Created by Remco on 25-11-2015.
  */
-public class NumberBox {
-    int value = 0;
+public class NumberBox
+{
+    Integer value;
+    boolean isStartValue;
 
-    void setValue(int newValue)
+    void setValue(int newValue, boolean newIsStartValue)
     {
-        value = newValue;
+        if (newValue == 0)
+        {
+            value = null;
+        }
+        else{
+            value = newValue;
+        }
+        isStartValue = newIsStartValue;
     }
 
-    String getValue()
+    Integer getValue()
     {
-        if(value != 0)
+        return value;
+    }
+
+    boolean isStartValue()
+    {
+        return isStartValue;
+    }
+
+    void increaseValue()
+    {
+        value++;
+    }
+
+    boolean isEqual(int otherValue)
+    {
+        if (value != null)
         {
-            return value + "";
+            if (value == otherValue)
+            {
+                return true;
+            }
         }
-        else
-        {
-            return " ";
-        }
+        return false;
     }
 }
