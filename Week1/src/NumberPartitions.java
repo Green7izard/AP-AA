@@ -46,21 +46,21 @@ public class NumberPartitions
         {
             partition(output, n, max, new ArrayList<Integer>());
             return;
-        }
-        if (n <= 0)
+        } else if (n <= 0)
         {
             if (! current.isEmpty())
             {
                 output.add(current);
             }
             return;
-        }
-
-        for (int i = Math.min(max, n); i >= 1; i--)
+        } else
         {
-            ArrayList<Integer> temp = (ArrayList<Integer>) current.clone();
-            temp.add(i);
-            partition(output, n - i, i, temp);
+            for (int i = Math.min(max, n); i >= 1; i--)
+            {
+                ArrayList<Integer> temp = (ArrayList<Integer>) current.clone();
+                temp.add(i);
+                partition(output, n - i, i, temp);
+            }
         }
     }
 }
