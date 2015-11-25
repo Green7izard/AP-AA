@@ -2,22 +2,36 @@
  * Created by Remco on 25-11-2015.
  */
 public class NumberBox {
-    int value = 0;
+    Integer value;
+    boolean isStartValue = false;
 
-    void setValue(int newValue)
+    void setValue(int newValue, boolean newIsStartValue)
     {
         value = newValue;
+        isStartValue = newIsStartValue;
     }
 
-    String getValue()
+    Integer getValue()
     {
-        if(value != 0)
+        return value;
+    }
+
+    boolean isStartValue()
+    {
+        return isStartValue;
+    }
+
+    void increaseValue()
+    {
+        value ++;
+    }
+
+    boolean isEqual(int otherValue)
+    {
+        if(value == otherValue)
         {
-            return value + "";
+            return true;
         }
-        else
-        {
-            return " ";
-        }
+        return false;
     }
 }
