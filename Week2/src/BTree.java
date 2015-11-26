@@ -38,7 +38,6 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
             int comparison = nodes.get(i).compareTo(key);
             if (comparison == 0)
             {
-                System.out.println("I have it! " + key);
                 return this;
             } else if (comparison > 0)
             {
