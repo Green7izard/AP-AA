@@ -19,7 +19,7 @@ public class Main
         System.out.println("1 Star:");
         bf.findSolution(size, bordOneStar);
 
-        System.out.println("11 Stars:");
+        System.out.println("\n11 Stars:");
         bf.findSolution(size, bordElevenStars);
     }
 
