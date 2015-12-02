@@ -46,10 +46,11 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
     }
 
 
-    public void put(K key, V value)
+    public V put(K key, V value)
     {
-        root = root.put(new KeyValuePair<K,V>(key, value));
+        V retVal =root.put(new KeyValuePair<K,V>(key, value));
         rebase();
+        return retVal;
     }
 
     private void rebase()

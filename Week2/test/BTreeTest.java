@@ -119,7 +119,7 @@ public class BTreeTest
 
     @Test
     public void additionMultipleTreesTest(){
-        int number = 14;
+        int number = 25;
         for(int i = 1; i<=number;i++)
         {
             tree.put(i, i + "");

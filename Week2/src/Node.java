@@ -69,6 +69,11 @@ public class Node<K extends Comparable, V>
             for (Link<K, V> link : links)
             {
                 //If left or right is free (ends)
+                if(link.leftValue==null && link.rightValue ==null)
+                {
+                    System.err.println("FAILED FOR " + key);
+                    throw new NullPointerException("FAILED FOR "+this.links);
+                }
                 if ((link.leftValue == null && link.rightValue.compareTo(key) > 0) || (link.rightValue == null && link.leftValue.compareTo(key) < 0))
                 {
                     return link.subnode;
@@ -156,7 +161,7 @@ public class Node<K extends Comparable, V>
         return links.size()>nodeSize+1;
     }
 
-    public Node<K,V> put(KeyValuePair<K, V> newPair)
+    public V put(KeyValuePair<K, V> newPair)
     {
         if (newPair != null && newPair.getKey() != null)
         {
@@ -167,37 +172,34 @@ public class Node<K extends Comparable, V>
                 //Its the left Value
                 if (link.leftValue != null && link.leftValue.compareTo(newPair.getKey()) == 0)
                 {
-                    link.leftValue.setValue(newPair.getValue());
-                    return this;
+                    return link.leftValue.setValue(newPair.getValue());
                 }
                 // Its the Right Value
                 else if (link.rightValue != null && link.rightValue.compareTo(newPair.getKey()) == 0)
                 {
-                    link.rightValue.setValue(newPair.getValue());
-                    return this;
+                    return link.rightValue.setValue(newPair.getValue());
                 }
             }
-            return target.forcePut(newPair);
+            target.forcePut(newPair);
+            links.remove(null);
+            return null;
         }
         return null;
     }
 
-    private Node<K,V> forcePut(KeyValuePair<K, V> newPair)
+    private void forcePut(KeyValuePair<K, V> newPair)
     {
-        if (isFull())
+        insert(newPair);
+        if (isOverFull())
         {
-            insert(newPair);
-            return splitNode();
-        } else
-        {
-            insert(newPair);
-            return this;
+            splitNode();
         }
     }
 
-    private Node<K,V> splitNode()
+    private void splitNode()
     {
         //Only split if high enough
+        links.remove(null);
         if(links.size()>nodeSize/2)
         {
             //Get the middle
@@ -240,9 +242,8 @@ public class Node<K extends Comparable, V>
                 parent = new Node<K,V>(nodeSize);
             }
             //Insert into parent
-            return parent.insertLinks(leftLink, rightLink, this);
+            parent.insertLinks(leftLink, rightLink, this);
         }
-        return this;
     }
 
     public Node<K,V> getRoot()
@@ -255,7 +256,7 @@ public class Node<K extends Comparable, V>
         return current;
     }
 
-    private Node<K,V> insertLinks(Link<K, V> leftLink, Link rightLink, Node<K,V> oldNode)
+    private void insertLinks(Link<K, V> leftLink, Link rightLink, Node<K,V> oldNode)
     {
         if(leftLink.subnode!=null)
         {
@@ -326,13 +327,11 @@ public class Node<K extends Comparable, V>
                 links.add(rightLink);
             }
         }
+        links.remove(null);
         Collections.sort(links);
         if(isOverFull())
         {
-            return splitNode();
-        }
-        else{
-            return this;
+            splitNode();
         }
     }
 
@@ -395,7 +394,7 @@ public class Node<K extends Comparable, V>
         if (key != null)
         {
             Node<K, V> current;
-            Node<K, V> next = this.getRoot();
+            Node<K, V> next = this;
             do
             {
                 current = next;
