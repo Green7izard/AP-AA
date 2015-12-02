@@ -59,7 +59,7 @@ public class BTreeTest
         }
     }
 
-    //First instance of a double split
+    //More then one instance of a double split
     @Test
     public void addition12Test(){
         int number = 12;

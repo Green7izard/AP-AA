@@ -201,7 +201,7 @@ public class Node<K extends Comparable, V>
         if(links.size()>nodeSize/2)
         {
             //Get the middle
-            int middle = links.size()/2;
+            int middle = links.size()/2+1;
             ArrayList <Link<K,V>> leftSplit = new ArrayList<Link<K, V>>(nodeSize+1);
             ArrayList <Link<K,V>> rightSplit= new ArrayList<Link<K, V>>(nodeSize+1);
             KeyValuePair<K,V> middleValue = links.get(middle).leftValue;
@@ -395,7 +395,7 @@ public class Node<K extends Comparable, V>
         if (key != null)
         {
             Node<K, V> current;
-            Node<K, V> next = this;
+            Node<K, V> next = this.getRoot();
             do
             {
                 current = next;
