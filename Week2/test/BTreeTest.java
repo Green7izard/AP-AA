@@ -1,5 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,31 +26,109 @@ public class BTreeTest
 
     @Test
     public void additionTest(){
-        assertNull(tree.put(20, "2"));
-        assertNull(tree.put(30, "2"));
-        assertNull(tree.put(10, "2"));
+        Node<Integer, String> root = tree.getRoot();
+        tree.put(20, "2");
+        tree.put(30, "2");
+        tree.put(10, "2");
 
         assertEquals(3, tree.getRoot().amountOfPairs());
         assertEquals(1, tree.size());
 
-        assertNotNull(tree.put(10, "3"));
+        tree.put(10, "3");
 
         assertEquals(3, tree.getRoot().amountOfPairs());
         assertEquals(1, tree.size());
+        assertEquals(root, tree.getRoot());
+    }
+
+    //First instance of a  split
+    @Test
+    public void addition4Test(){
+        int number = 4;
+        for(int i = 1; i<=number;i++)
+        {
+            tree.put(i, i+"");
+            checkTree(tree);
+        }
+        assertEquals(number, tree.getRoot().amountOfPairs());
+        for(int i = 1; i<=number;i++)
+        {
+            String s = tree.get(i);
+            assertNotNull("failed to get "+i, s);
+            assertEquals(i+"", s);
+        }
+    }
+
+    //First instance of a double split
+    @Test
+    public void addition12Test(){
+        int number = 12;
+        for(int i = 1; i<=number;i++)
+        {
+            tree.put(i, i+"");
+            checkTree(tree);
+        }
+        assertEquals(number, tree.getRoot().amountOfPairs());
+        for(int i = 1; i<=number;i++)
+        {
+            String s = tree.get(i);
+            assertNotNull("failed to get "+i, s);
+            assertEquals(i+"", s);
+        }
+    }
+
+    private void checkTree(BTree<Integer, String> tree)
+    {
+        checkFullNode(tree.getRoot());
+    }
+    private void checkFullNode(Node<Integer, String> node)
+    {
+        checkNodeValues(node);
+        for(Node.Link<Integer, String> link : node.getLinks())
+        {
+            if(link.subnode!=null)
+            {
+                checkFullNode(link.subnode);
+            }
+        }
+    }
+
+    private void checkNodeValues(Node<Integer, String> node){
+        List<Node.Link<Integer, String>> list = node.getLinks();
+        for(int i = 0; i<list.size();i++)
+        {
+            Node.Link<Integer, String> link = list.get(i);
+            if(i==0)
+            {
+                assertNull(link.leftValue);
+            }
+            else
+            {
+                assertNotNull(link.leftValue);
+            }
+            if(i==list.size()-1)
+            {
+                assertNull(link.rightValue);
+            }
+            else
+            {
+                assertNotNull(link.rightValue);
+            }
+        }
     }
 
     @Test
     public void additionMultipleTreesTest(){
-        int number = 6000;
-        for(int i = 0; i<number;i++)
+        int number = 14;
+        for(int i = 1; i<=number;i++)
         {
-            assertNull(tree.put(i, i+""));
+            tree.put(i, i + "");
         }
         assertEquals(number, tree.getRoot().amountOfPairs());
-        for(int i = 0; i<number;i++)
+        for(int i = 1; i<=number;i++)
         {
             String s = tree.get(i);
-            assertNotNull(s);
+            assertNotNull("failed to get "+i, s);
             assertEquals(i+"", s);
         }
     }

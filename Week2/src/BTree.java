@@ -34,25 +34,27 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public V get(K key)
     {
-        return root.get(key).getValue();
+        KeyValuePair<K,V> pair = root.get(key);
+        if(pair==null)
+        {
+            return null;
+        }
+        else
+        {
+            return pair.getValue();
+        }
     }
 
 
-    public V put(K key, V value)
+    public void put(K key, V value)
     {
-        V result = root.put(new KeyValuePair<K,V>(key, value));
+        root = root.put(new KeyValuePair<K,V>(key, value));
         rebase();
-        return result;
     }
 
     private void rebase()
     {
-        Node<K,V> current = root;
-        while(root.getParent()!=null)
-        {
-            current=root.getParent();
-        }
-        root=current;
+        root=root.getRoot();
     }
 
 
@@ -74,7 +76,7 @@ public class BTree<K extends Comparable, V> //implements Map<K, V>
 
     public Node<K,V> getRoot()
     {
-        return root;
+            return root;
     }
 
 }
