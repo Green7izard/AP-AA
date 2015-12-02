@@ -3,7 +3,7 @@ import java.security.KeyStore;
 /**
  * Created by Bas on 25-11-2015.
  */
-public class KeyValuePair<K extends Comparable, V> implements Comparable<Comparable>, KeyStore.Entry
+public class KeyValuePair<K extends Comparable, V> implements Comparable<Comparable>
 {
     //The key, should never be replaced
     private final K key;

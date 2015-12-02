@@ -17,7 +17,8 @@ public class BTreeTest
     @Test
     public void creationTest(){
         assertNotNull(tree);
-        assertEquals(0, tree.size());
+        assertEquals(0, tree.getRoot().amountOfPairs());
+        assertEquals(1, tree.size());
     }
 
     @Test
@@ -25,10 +26,14 @@ public class BTreeTest
         assertNull(tree.put(20, "2"));
         assertNull(tree.put(30, "2"));
         assertNull(tree.put(10, "2"));
-        assertEquals(3, tree.size());
+
+        assertEquals(3, tree.getRoot().amountOfPairs());
+        assertEquals(1, tree.size());
 
         assertNotNull(tree.put(10, "3"));
-        assertEquals(3, tree.size());
+
+        assertEquals(3, tree.getRoot().amountOfPairs());
+        assertEquals(1, tree.size());
     }
 
     @Test
@@ -38,7 +43,7 @@ public class BTreeTest
         {
             assertNull(tree.put(i, i+""));
         }
-        assertEquals(number, tree.size());
+        assertEquals(number, tree.getRoot().amountOfPairs());
         for(int i = 0; i<number;i++)
         {
             String s = tree.get(i);
