@@ -14,7 +14,7 @@ public class BTreeTest
 
     @Before
     public void setUp(){
-        tree = new BTree(3);
+        tree = new BTree(4);
     }
 
     @Test
@@ -43,8 +43,8 @@ public class BTreeTest
 
     //First instance of a  split
     @Test
-    public void addition4Test(){
-        int number = 4;
+    public void addition5Test(){
+        int number = 5;
         for(int i = 1; i<=number;i++)
         {
             tree.put(i, i+"");
