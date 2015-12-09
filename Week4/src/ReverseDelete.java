@@ -152,14 +152,18 @@ public class ReverseDelete
 
     void takeStep()
     {
-        Edge removeable = edges.get(lastProcessed);
-        if (safeToDelete(removeable))
+        if (lastProcessed > 0)
         {
-            edges.remove(removeable);
-            removeable.getFirst().removeEdge(removeable);
-            removeable.getSecond().removeEdge(removeable);
+            Edge removeable = edges.get(lastProcessed);
+            if (safeToDelete(removeable))
+            {
+                edges.remove(removeable);
+                removeable.getFirst().removeEdge(removeable);
+                removeable.getSecond().removeEdge(removeable);
+            }
+            lastProcessed--;
         }
-        lastProcessed--;
+        checkNext();
     }
 
     void autoComplete()
@@ -167,7 +171,6 @@ public class ReverseDelete
         while (lastProcessed >= 0)
         {
             takeStep();
-            checkNext();
         }
     }
 }
