@@ -10,7 +10,7 @@ public class Graph
 
     public static final int defaultNodes = 10;
     public static final int defaultSize = 20;
-    List<Node> nodes;
+    private List<Node> nodes;
 
     public Graph(List<Node> nodes)
     {
@@ -38,7 +38,20 @@ public class Graph
         Random rand = new Random();
         for (int i = 0; i < size; i++)
         {
-            nodes.add(new Node(rand.nextInt(maxX), rand.nextInt(maxY)));
+            Node newNode;
+            boolean contains = false;
+            do
+            {
+                newNode = new Node(rand.nextInt(maxX), rand.nextInt(maxY));
+                for (Node node : nodes)
+                {
+                    if (newNode.getEasyDistanceTo(node) == 0)
+                    {
+                        contains = true;
+                    }
+                }
+            } while (! contains);
+            nodes.add(newNode);
         }
         return nodes;
     }
@@ -46,5 +59,10 @@ public class Graph
     public List<Node> getNodes()
     {
         return nodes;
+    }
+
+    public int getNodesNumber()
+    {
+        return nodes.size();
     }
 }
