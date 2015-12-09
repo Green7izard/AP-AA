@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by Bas on 9-12-2015.
  */
@@ -5,6 +9,7 @@ public final class Node
 {
     private final int x;
     private final int y;
+    private final List<Edge> edges;
 
     /**
      * Create the node
@@ -16,6 +21,7 @@ public final class Node
     {
         this.x = x;
         this.y = y;
+        edges = new ArrayList<Edge>();
     }
 
     /**
@@ -44,7 +50,7 @@ public final class Node
     {
         int distX = n.getX() - x;
         int distY = n.getY() - y;
-        return Math.pow(distX, 2) * Math.pow(distY, 2);
+        return Math.pow(distX, 2) + Math.pow(distY, 2);
     }
 
     /**
@@ -56,6 +62,60 @@ public final class Node
     public double getDistanceTo(Node n)
     {
         return Math.sqrt(getEasyDistanceTo(n));
+    }
+
+    public void addEdge(Edge e)
+    {
+        if (! edges.contains(e) && e.contains(this))
+        {
+            edges.add(e);
+            Collections.sort(edges);
+        }
+    }
+
+    public int amountOfEdges()
+    {
+        return edges.size();
+    }
+
+    public List<Edge> getEdges()
+    {
+        return edges;
+    }
+
+    public void removeEdge(Edge edge)
+    {
+        if (edge.getFirst().equals(this))
+        {
+            removeEdge(edge.getSecond());
+        } else if (edge.getSecond().equals(this))
+        {
+            removeEdge(edge.getFirst());
+        }
+    }
+
+    public void removeEdge(Node other)
+    {
+        for (int i = 0; i < edges.size(); i++)
+        {
+            Edge edge = edges.get(i);
+            if (edge.contains(other))
+            {
+                edges.remove(i);
+            }
+        }
+    }
+
+    public boolean equals(Object other)
+    {
+        if (other instanceof Node)
+        {
+            Node o = (Node) other;
+            return o.x == x && o.y == y;
+        } else
+        {
+            return false;
+        }
     }
 }
 

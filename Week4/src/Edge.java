@@ -4,12 +4,16 @@
 public class Edge implements Comparable<Edge>
 {
     final Node[] nodes;
+    final double distance;
 
     public Edge(Node node1, Node node2)
     {
         nodes = new Node[2];
         nodes[0] = node1;
         nodes[1] = node2;
+        node1.addEdge(this);
+        node2.addEdge(this);
+        distance = node1.getDistanceTo(node2);
     }
 
     public boolean contains(Node n)
@@ -22,15 +26,6 @@ public class Edge implements Comparable<Edge>
         return contains(node1) && contains(node2);
     }
 
-    /**
-     * Gets the Pythagoras of the 2 without the squareroot
-     *
-     * @return the Square of the distance
-     */
-    public double getEasyDistance()
-    {
-        return nodes[0].getEasyDistanceTo(nodes[1]);
-    }
 
     /**
      * Get the actual disntance to the node
@@ -39,23 +34,22 @@ public class Edge implements Comparable<Edge>
      */
     public double getDistance()
     {
-        return nodes[0].getDistanceTo(nodes[1]);
+        return distance;
     }
 
     @Override
     public int compareTo(Edge o)
     {
-        return (int) Math.round(getEasyDistance() - o.getEasyDistance());
+        return (int) Math.round(distance - o.distance);
     }
 
     public boolean equals(Object other)
     {
-        if(other instanceof Edge)
+        if (other instanceof Edge)
         {
             Edge o = (Edge) other;
             return o.isEdge(nodes[0], nodes[1]);
-        }
-        else
+        } else
         {
             return false;
         }
