@@ -14,9 +14,14 @@ public class Node<K extends Comparable, V>
 
     public Node(int nodeSize)
     {
+        this(nodeSize, new ArrayList<Link<K, V>>(nodeSize+1));
+    }
+
+    public Node(int nodeSize, List<Link<K, V>> links)
+    {
         this.nodeSize = nodeSize;
-        links = new ArrayList<Link<K, V>>(this.nodeSize);
-        parent = null;
+        this.links = links;
+        parent=null;
     }
 
     public Node getParent()
@@ -37,7 +42,7 @@ public class Node<K extends Comparable, V>
             do
             {
                 //Check if i have it
-                for (Link link : links)
+                for (Link link : next.links)
                 {
                     //Its the left Value
                     if (link.leftValue != null && link.leftValue.compareTo(key) == 0)
@@ -51,7 +56,7 @@ public class Node<K extends Comparable, V>
                     }
                 }
                 //Otherwise get the next
-                next = getNextNode(key);
+                next = next.getNextNode(key);
             } while (next != null);
         }
         return null;
@@ -64,6 +69,11 @@ public class Node<K extends Comparable, V>
             for (Link<K, V> link : links)
             {
                 //If left or right is free (ends)
+                if(link.leftValue==null && link.rightValue ==null)
+                {
+                    System.err.println("FAILED FOR " + key);
+                    throw new NullPointerException("FAILED FOR "+this.links);
+                }
                 if ((link.leftValue == null && link.rightValue.compareTo(key) > 0) || (link.rightValue == null && link.leftValue.compareTo(key) < 0))
                 {
                     return link.subnode;
@@ -75,7 +85,7 @@ public class Node<K extends Comparable, V>
 
                 }
                 // If its equals to
-                else if (link.leftValue != null && link.rightValue != null && (link.rightValue.compareTo(key) == 0 || link.leftValue.compareTo(key) == 0))
+                else if ( (link.rightValue != null&&link.rightValue.compareTo(key) == 0) || (link.leftValue != null && link.leftValue.compareTo(key) == 0))
                 {
                     return this;
                 }
@@ -130,23 +140,25 @@ public class Node<K extends Comparable, V>
         int total = 0;
         for (Link link : links)
         {
+            if(link.leftValue!=null)
+            {
+                total++;
+            }
             if (link.subnode != null)
             {
                 total += link.subnode.amountOfPairs();
             }
         }
-        if (links.size() == 0)
-        {
             return total;
-        } else
-        {
-            return total + links.size() - 1;
-        }
     }
 
     public boolean isFull()
     {
-        return links.size() - 1 == nodeSize;
+        return links.size() == nodeSize+1;
+    }
+
+    protected boolean isOverFull(){
+        return links.size()>nodeSize+1;
     }
 
     public V put(KeyValuePair<K, V> newPair)
@@ -169,24 +181,165 @@ public class Node<K extends Comparable, V>
                 }
             }
             target.forcePut(newPair);
+            links.remove(null);
+            return null;
         }
         return null;
     }
 
     private void forcePut(KeyValuePair<K, V> newPair)
     {
-        if (isFull())
+        insert(newPair);
+        if (isOverFull())
         {
-            splitNode(newPair);
-        } else
-        {
-            insert(newPair);
+            splitNode();
         }
     }
 
-    private void splitNode(KeyValuePair<K, V> newPair)
+    private void splitNode()
+    {
+        //Only split if high enough
+        links.remove(null);
+        if(links.size()>nodeSize/2)
+        {
+            //Get the middle
+            int middle = links.size()/2+1;
+            ArrayList <Link<K,V>> leftSplit = new ArrayList<Link<K, V>>(nodeSize+1);
+            ArrayList <Link<K,V>> rightSplit= new ArrayList<Link<K, V>>(nodeSize+1);
+            KeyValuePair<K,V> middleValue = links.get(middle).leftValue;
+            //Sort the links into a left and a right side
+            for(int i = 0; i<links.size();i++)
+            {
+                if(i<middle)
+                {
+                    leftSplit.add(links.get(i));
+                } else if(i>=middle)
+                {
+                    rightSplit.add(links.get(i));
+                }
+            }
+            //Change the state of the outer values
+            leftSplit.get(leftSplit.size()-1).rightValue=null;
+            rightSplit.get(0).leftValue=null;
+
+            //Create a new right node
+            Node<K,V> newRight = new Node(nodeSize, rightSplit);
+
+            //Create a new links that will go to the parent
+            Link rightLink = new Link<K,V>();
+            rightLink.leftValue=middleValue;
+            rightLink.subnode=newRight;
+
+            //Node<K,V> newLeft = new Node(nodeSize, leftSplit);
+            this.links = leftSplit;
+            Link<K,V> leftLink = new Link();
+            leftLink.rightValue= middleValue;
+            leftLink.subnode=this;
+
+            //If there is no parent, create it
+            if(parent==null)
+            {
+                parent = new Node<K,V>(nodeSize);
+            }
+            //Insert into parent
+            parent.insertLinks(leftLink, rightLink, this);
+        }
+    }
+
+    public Node<K,V> getRoot()
+    {
+        Node<K,V> current = this;
+        while(current.getParent()!=null)
+        {
+            current=current.getParent();
+        }
+        return current;
+    }
+
+    private void insertLinks(Link<K, V> leftLink, Link rightLink, Node<K,V> oldNode)
+    {
+        if(leftLink.subnode!=null)
+        {
+            leftLink.subnode.parent = this;
+        }
+        if(rightLink.subnode!=null)
+        {
+            rightLink.subnode.parent = this;
+        }
+        if(links.size()==0)
+        {
+            links.add(leftLink);
+            links.add(rightLink);
+        }
+        else
+        {
+            int currentLocation=-1;
+            for(int i=0;i<links.size();i++)
+            {
+                Link<K,V> link = links.get(i);
+                if(link!=null)
+                {
+                    if (oldNode.equals(links.get(i).subnode))
+                    {
+                        currentLocation = i;
+                        break;
+                    } else if ((link.leftValue==null||link.leftValue.compareTo(leftLink.rightValue)<0)&&(link.rightValue==null||link.rightValue.compareTo(rightLink.leftValue)>0))
+                    {
+                        currentLocation = i;
+                    }
+                }
+            }
+            if(currentLocation==0)
+            {
+                Link<K,V> currentLeft = links.get(currentLocation);
+                links.add(0, leftLink);
+                if(currentLeft.subnode==null || currentLeft.subnode.equals(oldNode))
+                {
+                    currentLeft.subnode=rightLink.subnode;
+                }
+                else if(rightLink.subnode!=null)
+                {
+                    currentLeft.subnode.mergeNode(rightLink.subnode);
+                }
+                currentLeft.leftValue=rightLink.leftValue;
+            }
+            else if(currentLocation==links.size()-1){
+                Link<K,V> currentRight = links.get(currentLocation);
+                links.add(rightLink);
+                if(currentRight.subnode==null|| currentRight.subnode.equals(oldNode))
+                {
+                    currentRight.subnode = leftLink.subnode;
+                }
+                else if(leftLink.subnode!=null)
+                {
+                    currentRight.subnode.mergeNode(leftLink.subnode);
+                }
+                currentRight.rightValue=leftLink.rightValue;
+            }
+            else
+            {
+                Link<K,V> currentHolder = links.get(currentLocation);
+                //Link<K,V> currentRight = links.get(currentLocation+1);
+                KeyValuePair<K,V> middleGuard = currentHolder.rightValue;
+                currentHolder.rightValue= leftLink.rightValue;
+                currentHolder.subnode=rightLink.subnode;
+                rightLink.rightValue=middleGuard;
+                links.add(rightLink);
+            }
+        }
+        links.remove(null);
+        Collections.sort(links);
+        if(isOverFull())
+        {
+            splitNode();
+        }
+    }
+
+    private void mergeNode(Node<K,V> toMerge)
     {
         //TODO
+
+                           System.err.println("FAIL: "+this.links.get(links.size()-1).leftValue.getKey()+" <- "+toMerge.links.get(0).rightValue.getKey());
     }
 
     private void insert(KeyValuePair<K, V> newPair)
@@ -199,6 +352,7 @@ public class Node<K extends Comparable, V>
             newLink2.leftValue = newPair;
             links.add(newLink);
             links.add(newLink2);
+            Collections.sort(links);
             return;
         } else
         {
@@ -247,7 +401,7 @@ public class Node<K extends Comparable, V>
             {
                 current = next;
                 next = current.getNextNode(key);
-            } while (next != null || current.equals(next));
+            } while (next != null && !current.equals(next));
             return current;
 
         }
@@ -262,7 +416,6 @@ public class Node<K extends Comparable, V>
 
     public static class Link<K extends Comparable, V> implements Comparable<Link<K, V>>
     {
-        int position;
         Node<K, V> subnode;
         KeyValuePair<K, V> leftValue;
         KeyValuePair<K, V> rightValue;
