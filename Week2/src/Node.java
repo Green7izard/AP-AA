@@ -319,7 +319,7 @@ public class Node<K extends Comparable, V>
             else
             {
                 Link<K,V> currentHolder = links.get(currentLocation);
-                Link<K,V> currentRight = links.get(currentLocation+1);
+                //Link<K,V> currentRight = links.get(currentLocation+1);
                 KeyValuePair<K,V> middleGuard = currentHolder.rightValue;
                 currentHolder.rightValue= leftLink.rightValue;
                 currentHolder.subnode=rightLink.subnode;
@@ -335,9 +335,11 @@ public class Node<K extends Comparable, V>
         }
     }
 
-    private void mergeNode(Node toMerge)
+    private void mergeNode(Node<K,V> toMerge)
     {
         //TODO
+
+                           System.err.println("FAIL: "+this.links.get(links.size()-1).leftValue.getKey()+" <- "+toMerge.links.get(0).rightValue.getKey());
     }
 
     private void insert(KeyValuePair<K, V> newPair)
