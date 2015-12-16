@@ -84,6 +84,31 @@ public class AVLNode<K extends Comparable, V>
             }
             current = current.parent;
         }
+        getRoot().topDownBalance();
+    }
+
+    private void topDownBalance()
+    {
+        int balanceFactor = balanceFactor();
+        if (balanceFactor > 1)
+        {
+            rotateRight();
+            parent.topDownBalance();
+            return;
+        } else if (balanceFactor < - 1)
+        {
+            rotateLeft();
+            parent.topDownBalance();
+            return;
+        }
+        if(leftValue!=null)
+        {
+            leftValue.topDownBalance();
+        }
+        if(rightValue!=null)
+        {
+            rightValue.topDownBalance();
+        }
     }
 
     private void rotateLeft()
@@ -92,7 +117,14 @@ public class AVLNode<K extends Comparable, V>
         if (oldRight != null)
         {
             AVLNode<K, V> oldRightsLeft = oldRight.leftValue;
+            if(oldRightsLeft!=null)
+            {
 
+                oldRight.rotateRight();
+                //rightValue.rebalance();
+                oldRight = this.rightValue;
+                oldRightsLeft = oldRight.leftValue;
+            }
             rightValue = oldRightsLeft;
             if(rightValue!=null)
             {
@@ -124,7 +156,13 @@ public class AVLNode<K extends Comparable, V>
         if (oldLeft != null)
         {
             AVLNode<K, V> oldLeftsRight = oldLeft.rightValue;
-
+            if(oldLeft.rightValue!=null)
+            {
+                oldLeft.rotateRight();
+                //rightValue.rebalance();
+                oldLeft = this.leftValue;
+                oldLeftsRight = oldLeft.rightValue;
+            }
             leftValue = oldLeftsRight;
             if(rightValue!=null)
             {

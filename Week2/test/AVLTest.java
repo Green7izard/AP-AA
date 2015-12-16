@@ -24,6 +24,29 @@ public class AVLTest
     }
 
     @Test
+    public void firstDoubleRotationTest()
+    {
+        AVLNode<Integer, String> tree = new AVLNode<Integer, String>(new KeyValuePair<Integer, String>(0, "0"));
+        int number = 4;
+        for (int i = 1; i <= number; i++)
+        {
+            assertNull(tree.insert(i, i + ""));
+            tree = tree.getRoot();
+            int balanceFactor = tree.balanceFactor();
+            assertTrue("BalanceFactor: "+balanceFactor+ " after inserting: "+i, -2<balanceFactor && balanceFactor<2);
+        }
+        assertEquals(number+1, tree.getRoot().size());
+
+        for (int i = 0; i <= number; i++)
+        {
+            String s = tree.get(i);
+            assertNotNull("failed to get " + i, s);
+            assertEquals(i + "", s);
+        }
+
+    }
+
+    @Test
     public void additionLargeTest()
     {
         AVLNode<Integer, String> tree = new AVLNode<Integer, String>(new KeyValuePair<Integer, String>(0, "0"));
@@ -33,7 +56,7 @@ public class AVLTest
             assertNull(tree.insert(i, i + ""));
             tree = tree.getRoot();
             int balanceFactor = tree.balanceFactor();
-            assertTrue("BalanceFactor: "+balanceFactor+ " after inserting: "+i, -2<balanceFactor && balanceFactor<2);
+            assertTrue("BalanceFactor: " + balanceFactor + " after inserting: " + i, - 2 < balanceFactor && balanceFactor < 2);
         }
         assertEquals(number+1, tree.getRoot().size());
 
