@@ -14,7 +14,7 @@ public class ReverseDeleteTest
 
     public List<Edge> getSimpleTestEdges()
     {
-        List<Edge> list = new ArrayList<>(8);
+        List<Edge> list = new ArrayList<Edge>(8);
         Node n1 = new Node(0, 0);
         Node n2 = new Node(0, 2);
         Node n3 = new Node(1, 1);

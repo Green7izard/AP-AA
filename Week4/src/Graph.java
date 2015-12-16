@@ -38,7 +38,7 @@ public class Graph
 
     public static List<Node> generateRandom(int size, int maxX, int maxY)
     {
-        List<Node> nodes = new ArrayList<>(size);
+        List<Node> nodes = new ArrayList<Node>(size);
         Random rand = new Random();
         for (int i = 0; i < size; i++)
         {

@@ -41,7 +41,7 @@ public class ReverseDelete
 
     private static List<Edge> generateEdges(Graph graph)
     {
-        List<Edge> edges = new ArrayList<>();
+        List<Edge> edges = new ArrayList<Edge>();
         for (Node node1 : graph.getNodes())
         {
             for (Node node2 : graph.getNodes())
@@ -98,7 +98,7 @@ public class ReverseDelete
 
     boolean hasPathWithout(Node start, Node end, Edge toIgnore)
     {
-        List<Edge> edges = new ArrayList<>();
+        List<Edge> edges = new ArrayList<Edge>();
         edges.add(toIgnore);
         return hasPathWithout(start, end, edges);
     }
@@ -117,7 +117,7 @@ public class ReverseDelete
                 {
                     return true;
                 }
-                List<Edge> edges = new ArrayList<>(toIgnore);
+                List<Edge> edges = new ArrayList<Edge>(toIgnore);
                 edges.add(edge);
                 Node newNode;
                 if (edge.getFirst().equals(start))
