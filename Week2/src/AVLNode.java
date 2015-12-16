@@ -84,31 +84,31 @@ public class AVLNode<K extends Comparable, V>
             }
             current = current.parent;
         }
-        getRoot().topDownBalance();
+        while(getRoot().topDownBalance());
     }
 
-    private void topDownBalance()
+    private boolean topDownBalance()
     {
         int balanceFactor = balanceFactor();
+        boolean found =false;
         if (balanceFactor > 1)
         {
             rotateRight();
-            parent.topDownBalance();
-            return;
+            return true;
         } else if (balanceFactor < - 1)
         {
             rotateLeft();
-            parent.topDownBalance();
-            return;
+            return true;
         }
         if(leftValue!=null)
         {
-            leftValue.topDownBalance();
+            found = found ||leftValue.topDownBalance();
         }
         if(rightValue!=null)
         {
-            rightValue.topDownBalance();
+            found = found ||rightValue.topDownBalance();
         }
+        return found;
     }
 
     private void rotateLeft()
