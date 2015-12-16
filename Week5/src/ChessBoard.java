@@ -73,7 +73,7 @@ public class ChessBoard
 
         rowI = row;
         columnI = column;
-        while(rowI < size && columnI < size)
+        while(rowI < size  && columnI < size)
         {
             if (isQueen(rowI, columnI))
             {
@@ -128,7 +128,12 @@ public class ChessBoard
 
         for (int row = 0; row < size; row++)
         {
-            System.out.print("+ - + - + - + - + - + - + - + - +\n");
+            System.out.print("+");
+            for (int sizeI = 0; sizeI < size; sizeI++)
+            {
+                System.out.print(" - +");
+            }
+            System.out.print("\n");
             System.out.print("|");
 
             for (int column = 0; column < size; column++)
@@ -144,6 +149,11 @@ public class ChessBoard
             }
             System.out.print("\n");
         }
-        System.out.print("+ - + - + - + - + - + - + - + - +\n\n");
+        System.out.print("+");
+        for (int sizeI = 0; sizeI < size; sizeI++)
+        {
+            System.out.print(" - +");
+        }
+        System.out.print("\n\n");
     }
 }
