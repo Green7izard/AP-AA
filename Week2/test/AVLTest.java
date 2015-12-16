@@ -27,11 +27,13 @@ public class AVLTest
     public void additionLargeTest()
     {
         AVLNode<Integer, String> tree = new AVLNode<Integer, String>(new KeyValuePair<Integer, String>(0, "0"));
-        int number = 20;
+        int number = 10;
         for (int i = 1; i <= number; i++)
         {
             assertNull(tree.insert(i, i + ""));
             tree = tree.getRoot();
+            int balanceFactor = tree.balanceFactor();
+            assertTrue("BalanceFactor: "+balanceFactor+ " after inserting: "+i, -2<balanceFactor && balanceFactor<2);
         }
         assertEquals(number+1, tree.getRoot().size());
 
@@ -41,5 +43,6 @@ public class AVLTest
             assertNotNull("failed to get " + i, s);
             assertEquals(i + "", s);
         }
+
     }
 }

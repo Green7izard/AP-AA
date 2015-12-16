@@ -59,11 +59,11 @@ public class AVLNode<K extends Comparable, V>
         } else if (comparison > 0)
         {
             last.leftValue = new AVLNode<K, V>(new KeyValuePair<K, V>(key, value));
-            last.leftValue.parent = this;
+            last.leftValue.parent = last;
         } else if (comparison < 0)
         {
             last.rightValue = new AVLNode<K, V>(new KeyValuePair<K, V>(key, value));
-            last.rightValue.parent = this;
+            last.rightValue.parent = last;
         }
         last.rebalance();
         return null;
@@ -94,6 +94,14 @@ public class AVLNode<K extends Comparable, V>
             AVLNode<K, V> oldRightsLeft = oldRight.leftValue;
 
             rightValue = oldRightsLeft;
+            if(rightValue!=null)
+            {
+                rightValue.parent=this;
+            }
+            if(leftValue!=null)
+            {
+                leftValue.parent=this;
+            }
             oldRight.leftValue = this;
             oldRight.parent = this.parent;
             if (parent != null)
@@ -118,6 +126,14 @@ public class AVLNode<K extends Comparable, V>
             AVLNode<K, V> oldLeftsRight = oldLeft.rightValue;
 
             leftValue = oldLeftsRight;
+            if(rightValue!=null)
+            {
+                rightValue.parent=this;
+            }
+            if(leftValue!=null)
+            {
+                leftValue.parent=this;
+            }
             oldLeft.rightValue = this;
             oldLeft.parent = this.parent;
             if (parent != null)
