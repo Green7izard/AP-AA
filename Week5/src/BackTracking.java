@@ -15,6 +15,7 @@ public class BackTracking
     void findSolution(int size, ChessBoard bord)
     {
         boolean goBack = false;
+        int counter = 1;
 
         ChessSquare[] queens = new ChessSquare[size];
         for (int rowI = 0; rowI < size; rowI++)
@@ -25,7 +26,18 @@ public class BackTracking
                 {
                     bord.setQueenValue(rowI, columnI, true);
                     goBack = false;
-                    break;
+                    if(rowI >= size - 1)
+                    {
+                        System.out.println("Nr. " + counter);
+                        counter ++;
+                        bord.printValues();
+                        bord.setQueenValue(rowI, columnI, false);
+                        goBack = true;
+                    }
+                    else
+                    {
+                        break;
+                    }
                 }
                 else if(goBack && bord.isQueen(rowI, columnI))
                 {
@@ -47,10 +59,13 @@ public class BackTracking
                     {
                         columnI = size -2;
                         rowI -= 1;
+                        if(rowI < 0)
+                        {
+                            break;
+                        }
                     }
                 }
             }
         }
-        bord.printValues();
     }
 }
