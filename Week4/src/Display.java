@@ -116,6 +116,8 @@ public class Display extends JFrame
         for (Edge edge : solver.getEdges())
         {
             g.drawLine(edge.getFirst().getX() * DRAW_SCALE, edge.getFirst().getY() * DRAW_SCALE, edge.getSecond().getX() * DRAW_SCALE, edge.getSecond().getY() * DRAW_SCALE);
+            g.drawLine(edge.getFirst().getX() * DRAW_SCALE + 1, edge.getFirst().getY() * DRAW_SCALE, edge.getSecond().getX() * DRAW_SCALE + 1, edge.getSecond().getY() * DRAW_SCALE);
+            g.drawLine(edge.getFirst().getX() * DRAW_SCALE, edge.getFirst().getY() * DRAW_SCALE + 1, edge.getSecond().getX() * DRAW_SCALE, edge.getSecond().getY() * DRAW_SCALE + 1);
         }
     }
 

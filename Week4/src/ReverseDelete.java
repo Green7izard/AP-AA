@@ -138,7 +138,7 @@ public class ReverseDelete
 
     void checkNext()
     {
-        if (lastProcessed == 0 && this.isSolved())
+        if (lastProcessed == 0)
         {
             if (this.isSolved())
             {
