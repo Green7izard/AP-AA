@@ -3,12 +3,15 @@ package nl.han.bas;
 import nl.han.bas.permutation.BruteForceRecursionPermutation;
 import nl.han.bas.permutation.StringPermutation;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Bas on 22-12-2015.
  */
-public class AnagramFinder {
+public class AnagramFinder
+{
 
     /**
      * The permutation engine
@@ -17,11 +20,12 @@ public class AnagramFinder {
 
     /**
      * Creates a anagram finder with a specific permutation
+     *
      * @param perm the StringPermutation implementation
      */
     public AnagramFinder(StringPermutation perm)
     {
-        this.permutation=perm;
+        this.permutation = perm;
     }
 
     /**
@@ -35,6 +39,7 @@ public class AnagramFinder {
 
     /**
      * Gets all possible words using the WordSplitter
+     *
      * @param input the input String
      * @return set of words
      */
@@ -45,8 +50,10 @@ public class AnagramFinder {
 
     /**
      * Uses getWords and calls getAnagrams with a set
+     *
      * @param input the string that contains the words
      * @return the possible anagrams
+     *
      * @see #getAnagrams(Set)
      */
     public Set<String> getAnagrams(String input)
@@ -56,18 +63,20 @@ public class AnagramFinder {
 
     /**
      * Gets all possible Anagrams from a list of words
+     *
      * @param words The words
      * @return list of Anagrams
      */
-    public Set<String> getAnagrams(Set<String> words) {
+    public Set<String> getAnagrams(Set<String> words)
+    {
         //Tree set to increase the speed of lookups. For longer sentences they will be frequent
-        Set<String> anagrams  = new TreeSet<String>();
+        Set<String> anagrams = new TreeSet<String>();
         //For every word
-        for(Iterator<String> it = words.iterator(); it.hasNext();)
+        for (Iterator<String> it = words.iterator(); it.hasNext(); )
         {
             String element = it.next();
             //Ignore if its already in the resultset
-            if(!anagrams.contains(element))
+            if (! anagrams.contains(element))
             {
                 //Get all possible permutations for the word
                 Set<String> permutations = permutation.getPermutations(element);

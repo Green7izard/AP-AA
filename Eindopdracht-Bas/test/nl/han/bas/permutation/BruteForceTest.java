@@ -10,10 +10,12 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Bas on 22-12-2015.
  */
-public class BruteForceTest {
+public class BruteForceTest
+{
 
     @Test
-    public void getPermutationsForEenTest(){
+    public void getPermutationsForEenTest()
+    {
         Set<String> set = new BruteForceRecursionPermutation().getPermutations("een");
         assertEquals(3, set.size());
         Iterator<String> it = set.iterator();

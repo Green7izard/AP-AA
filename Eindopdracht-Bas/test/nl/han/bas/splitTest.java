@@ -11,24 +11,28 @@ import static org.junit.Assert.*;
 /**
  * Created by Bas on 22-12-2015.
  */
-public class SplitTest {
+public class SplitTest
+{
 
     @Test
-    public void testNull(){
+    public void testNull()
+    {
         Set<String> result = splitText(null);
         assertNotNull(result);
         assertEquals(0, result.size());
     }
 
     @Test
-    public void testEmpty(){
+    public void testEmpty()
+    {
         Set<String> result = splitText("");
         assertNotNull(result);
         assertEquals(0, result.size());
     }
 
     @Test
-    public void testBanaan(){
+    public void testBanaan()
+    {
         Set<String> result = splitText("Banaan");
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -36,7 +40,8 @@ public class SplitTest {
     }
 
     @Test
-    public void testDoubleBanaan(){
+    public void testDoubleBanaan()
+    {
         Set<String> result = splitText("Banaan banaan");
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -44,7 +49,8 @@ public class SplitTest {
     }
 
     @Test
-    public void testBanaanAndSign(){
+    public void testBanaanAndSign()
+    {
         Set<String> result = splitText("Banaan &%");
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -52,7 +58,8 @@ public class SplitTest {
     }
 
     @Test
-    public void testBanaanSign(){
+    public void testBanaanSign()
+    {
         Set<String> result = splitText("Banaan&%");
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -60,25 +67,27 @@ public class SplitTest {
     }
 
     @Test
-    public void testSentence(){
+    public void testSentence()
+    {
         Set<String> result = splitText("Een aap at een banaan. De banaan was lekker!");
         assertNotNull(result);
         assertEquals(7, result.size());
         Iterator<String> it = result.iterator();
 
-        assertEquals("een",it.next());
-        assertEquals("aap",it.next());
-        assertEquals("at",it.next());
-        assertEquals("banaan",it.next());
+        assertEquals("een", it.next());
+        assertEquals("aap", it.next());
+        assertEquals("at", it.next());
+        assertEquals("banaan", it.next());
         assertEquals("de", it.next());
-        assertEquals("was",it.next());
+        assertEquals("was", it.next());
         assertEquals("lekker", it.next());
 
         assertFalse(it.hasNext());
     }
 
     @Test
-    public void testIteratorRemoveCurrent(){
+    public void testIteratorRemoveCurrent()
+    {
         Set<String> result = splitText("test code");
         assertNotNull(result);
         assertEquals(2, result.size());

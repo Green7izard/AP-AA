@@ -1,6 +1,5 @@
 package nl.han.bas;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,11 +9,13 @@ import java.util.regex.Pattern;
  * Class with a utility function to split sentences into words!
  * Created by Bas on 22-12-2015.
  */
-public class WordSplitter {
+public class WordSplitter
+{
     /**
      * Utility classes dont need constructors
      */
-    private WordSplitter(){
+    private WordSplitter()
+    {
 
     }
 
@@ -31,10 +32,12 @@ public class WordSplitter {
     public static Set<String> splitText(String input)
     {
         LinkedHashSet<String> set = new LinkedHashSet<String>();
-        if(input!=null) {
+        if (input != null)
+        {
             Pattern p = Pattern.compile("[\\w']+");
             Matcher m = p.matcher(input);
-            while (m.find()) {
+            while (m.find())
+            {
                 set.add(input.substring(m.start(), m.end()).toLowerCase());
             }
         }

@@ -8,9 +8,10 @@ package nl.han.bas;
  * Elk woord komt maar een keer voor in zijn lijst van anagrammen.
  * Created by Bas on 22-12-2015.
  */
-public class Main {
+public class Main
+{
 
-    public static void main(String [] args)
+    public static void main(String[] args)
     {
 
     }
