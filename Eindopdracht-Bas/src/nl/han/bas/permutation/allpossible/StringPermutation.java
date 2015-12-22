@@ -4,6 +4,7 @@ import java.util.Set;
 
 /**
  * Interface for permutations engines
+ *
  * @Author Bas van Summeren<BasVanSummeren@home.nl> 479334
  */
 public interface StringPermutation

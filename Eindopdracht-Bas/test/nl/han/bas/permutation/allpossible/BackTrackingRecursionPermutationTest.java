@@ -110,7 +110,7 @@ public class BackTrackingRecursionPermutationTest
         assertArrayEquals(setSkipped.toArray(), setUnskipped.toArray());
         long skipTime = timeBetween - timeBefore;
         long unskipTime = timeAfter - timeBetween;
-        System.out.println(text+"| Skipped " + skipTime + "  | unskipped " + unskipTime);
+        System.out.println(text + "| Skipped " + skipTime + "  | unskipped " + unskipTime);
 
 
         text = "sdtserr";
@@ -124,7 +124,7 @@ public class BackTrackingRecursionPermutationTest
         assertTrue(setUnskipped.containsAll(setSkipped));
         skipTime = timeBetween - timeBefore;
         unskipTime = timeAfter - timeBetween;
-        System.out.println(text+"| Skipped " + skipTime + "  | unskipped " + unskipTime);
+        System.out.println(text + "| Skipped " + skipTime + "  | unskipped " + unskipTime);
 
         text = "sfgsdfg";
         timeBefore = System.nanoTime();
@@ -137,7 +137,7 @@ public class BackTrackingRecursionPermutationTest
         assertTrue(setUnskipped.containsAll(setSkipped));
         skipTime = timeBetween - timeBefore;
         unskipTime = timeAfter - timeBetween;
-        System.out.println(text+"| Skipped " + skipTime + "  | unskipped " + unskipTime);
+        System.out.println(text + "| Skipped " + skipTime + "  | unskipped " + unskipTime);
 
         text = "srtsrhf";
         timeBefore = System.nanoTime();
@@ -150,7 +150,7 @@ public class BackTrackingRecursionPermutationTest
         assertTrue(setUnskipped.containsAll(setSkipped));
         skipTime = timeBetween - timeBefore;
         unskipTime = timeAfter - timeBetween;
-        System.out.println(text+"| Skipped " + skipTime + "  | unskipped " + unskipTime);
+        System.out.println(text + "| Skipped " + skipTime + "  | unskipped " + unskipTime);
 
         text = "546544";
         timeBefore = System.nanoTime();

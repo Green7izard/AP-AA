@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
+ * Anagram finder that will look at each word and return ALL POSSIBLE anagrams of each word
+ *
  * @Author Bas van Summeren<BasVanSummeren@home.nl> 479334
  */
 public class AnagramFinder

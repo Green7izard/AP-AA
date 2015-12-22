@@ -26,8 +26,8 @@ public class AnagramTest
     @Test
     public void sameLetterTestSameWords()
     {
-        assertTrue("de",AnagramFinder.sameLetters("de", "de"));
-        assertTrue("het",AnagramFinder.sameLetters("het", "het"));
+        assertTrue("de", AnagramFinder.sameLetters("de", "de"));
+        assertTrue("het", AnagramFinder.sameLetters("het", "het"));
         assertTrue("friet", AnagramFinder.sameLetters("friet", "friet"));
         assertTrue("koffieboon", AnagramFinder.sameLetters("koffieboon", "koffieboon"));
         assertTrue("hefboomconstructie", AnagramFinder.sameLetters("hefboomconstructie", "hefboomconstructie"));
@@ -37,19 +37,19 @@ public class AnagramTest
     @Test
     public void sameLetterTestDifferentWords()
     {
-        assertTrue("de",AnagramFinder.sameLetters("ed", "de"));
-        assertTrue("het",AnagramFinder.sameLetters("het", "teh"));
+        assertTrue("de", AnagramFinder.sameLetters("ed", "de"));
+        assertTrue("het", AnagramFinder.sameLetters("het", "teh"));
         assertTrue("friet", AnagramFinder.sameLetters("friet", "fetri"));
         assertTrue("koffieboon", AnagramFinder.sameLetters("koffieboon", "okboffonie"));
-        assertTrue("hefboomconstructie",AnagramFinder.sameLetters("hefboomconstructie", "hefbooconstructiem"));
-        assertTrue("minimumtemperaturen",AnagramFinder.sameLetters("minimumtemperaturen", "eminimumtmperaturen"));
+        assertTrue("hefboomconstructie", AnagramFinder.sameLetters("hefboomconstructie", "hefbooconstructiem"));
+        assertTrue("minimumtemperaturen", AnagramFinder.sameLetters("minimumtemperaturen", "eminimumtmperaturen"));
     }
 
     @Test
     public void anagramsEen()
     {
         AnagramFinder finder = new AnagramFinder();
-        Map<String,Set<String>> result = finder.getAnagrams("een");
+        Map<String, Set<String>> result = finder.getAnagrams("een");
         assertEquals(1, result.size());
         assertNotNull(result.get("een"));
         assertEquals(1, result.get("een").size());
@@ -60,7 +60,7 @@ public class AnagramTest
     public void anagramsEenEneNee()
     {
         AnagramFinder finder = new AnagramFinder();
-        Map<String,Set<String>> result = finder.getAnagrams("een ene nee");
+        Map<String, Set<String>> result = finder.getAnagrams("een ene nee");
         assertEquals(3, result.size());
 
 
@@ -74,7 +74,7 @@ public class AnagramTest
 
         assertNotNull(result.get("ene"));
         assertEquals(3, result.get("ene").size());
-         s = result.get("ene").iterator();
+        s = result.get("ene").iterator();
         assertEquals("een", s.next());
         assertEquals("ene", s.next());
         assertEquals("nee", s.next());
@@ -92,9 +92,9 @@ public class AnagramTest
     @Test
     public void anagramsBigWordDouble()
     {
-        final String bigWord= "zandzeepsodemineraalwatersteenstralen";
+        final String bigWord = "zandzeepsodemineraalwatersteenstralen";
         AnagramFinder finder = new AnagramFinder();
-        Map<String,Set<String>> result = finder.getAnagrams(bigWord+ " " + bigWord +" " + bigWord +" " +bigWord);
+        Map<String, Set<String>> result = finder.getAnagrams(bigWord + " " + bigWord + " " + bigWord + " " + bigWord);
         assertEquals(1, result.size());
         assertNotNull(result.get(bigWord));
         assertEquals(1, result.get(bigWord).size());
@@ -104,25 +104,25 @@ public class AnagramTest
     @Test
     public void anagramsBigWordsSameLetters()
     {
-        final String bigWord= "zandzeepsodemineraalwatersteenstralen";
+        final String bigWord = "zandzeepsodemineraalwatersteenstralen";
         final String shuffledWord = "aaltrloeiazrneretadtsnepeeznsdwemsean";
         Iterator<String> s;
         AnagramFinder finder = new AnagramFinder();
-        Map<String,Set<String>> result = finder.getAnagrams(bigWord+ " " + shuffledWord +" " + bigWord +" " +shuffledWord);
+        Map<String, Set<String>> result = finder.getAnagrams(bigWord + " " + shuffledWord + " " + bigWord + " " + shuffledWord);
 
 
         assertEquals(2, result.size());
 
         assertNotNull(result.get(bigWord));
         assertEquals(2, result.get(bigWord).size());
-        s= result.get(bigWord).iterator();
+        s = result.get(bigWord).iterator();
         assertEquals(shuffledWord, s.next());
         assertEquals(bigWord, s.next());
         assertFalse(s.hasNext());
 
         assertNotNull(result.get(shuffledWord));
         assertEquals(2, result.get(shuffledWord).size());
-        s= result.get(shuffledWord).iterator();
+        s = result.get(shuffledWord).iterator();
         assertEquals(shuffledWord, s.next());
         assertEquals(bigWord, s.next());
         assertFalse(s.hasNext());

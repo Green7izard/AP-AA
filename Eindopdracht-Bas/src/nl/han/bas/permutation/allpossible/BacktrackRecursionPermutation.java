@@ -5,6 +5,7 @@ import java.util.Set;
 
 /**
  * Class that uses Brute force and recursion to get its permutations
+ *
  * @Author Bas van Summeren<BasVanSummeren@home.nl> 479334
  */
 public class BacktrackRecursionPermutation implements StringPermutation

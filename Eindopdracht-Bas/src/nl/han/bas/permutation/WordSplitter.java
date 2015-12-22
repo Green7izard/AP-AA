@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * Class with a utility function to split sentences into words!
+ *
  * @Author Bas van Summeren<BasVanSummeren@home.nl> 479334
  */
 public class WordSplitter
@@ -60,11 +61,10 @@ public class WordSplitter
     public static SortedSet<String> splitTextSorted(String input, Comparator<String> comp)
     {
         SortedSet<String> set;
-        if(comp!=null)
+        if (comp != null)
         {
-            set= new TreeSet<String>(comp);
-        }
-        else
+            set = new TreeSet<String>(comp);
+        } else
         {
             set = new TreeSet<String>(comp);
         }
@@ -74,18 +74,20 @@ public class WordSplitter
         }
         return set;
     }
+
     public static SortedSet<String> splitTextLengthSorted(String input)
     {
         return splitTextSorted(input, new SortByLength());
     }
 
-    private static class SortByLength implements Comparator<String>{
+    private static class SortByLength implements Comparator<String>
+    {
 
         @Override
         public int compare(String o1, String o2)
         {
-            int deltaLength= o1.length()-o2.length();
-            if(deltaLength==0)
+            int deltaLength = o1.length() - o2.length();
+            if (deltaLength == 0)
             {
                 return o1.compareTo(o2);
             }
