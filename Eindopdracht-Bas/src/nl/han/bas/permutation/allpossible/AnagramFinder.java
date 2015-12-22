@@ -1,7 +1,6 @@
-package nl.han.bas;
+package nl.han.bas.permutation.allpossible;
 
-import nl.han.bas.permutation.BacktrackRecursionPermutation;
-import nl.han.bas.permutation.StringPermutation;
+import nl.han.bas.permutation.WordSplitter;
 
 import java.util.Iterator;
 import java.util.Set;

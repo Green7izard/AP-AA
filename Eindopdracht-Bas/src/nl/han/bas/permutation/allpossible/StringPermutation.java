@@ -1,4 +1,4 @@
-package nl.han.bas.permutation;
+package nl.han.bas.permutation.allpossible;
 
 import java.util.Set;
 

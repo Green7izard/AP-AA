@@ -1,4 +1,6 @@
-package nl.han.bas;
+package nl.han.bas.permutation;
+
+import nl.han.bas.permutation.allpossible.AnagramFinder;
 
 import java.util.Iterator;
 import java.util.Scanner;

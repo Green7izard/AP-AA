@@ -1,11 +1,11 @@
-package nl.han.bas;
+package nl.han.bas.permutation;
 
 import org.junit.Test;
 
 import java.util.Iterator;
 import java.util.Set;
 
-import static nl.han.bas.WordSplitter.splitText;
+import static nl.han.bas.permutation.WordSplitter.splitText;
 import static org.junit.Assert.*;
 
 /**

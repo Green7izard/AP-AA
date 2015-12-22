@@ -1,4 +1,4 @@
-package nl.han.bas.permutation;
+package nl.han.bas.permutation.allpossible;
 
 import org.junit.Test;
 
@@ -163,7 +163,7 @@ public class BackTrackingRecursionPermutationTest
         assertTrue(setUnskipped.containsAll(setSkipped));
         skipTime = timeBetween - timeBefore;
         unskipTime = timeAfter - timeBetween;
-        System.out.println(text+"| Skipped " + skipTime + "  | unskipped " + unskipTime);
+        System.out.println(text + "| Skipped " + skipTime + "  | unskipped " + unskipTime);
 
 
     }

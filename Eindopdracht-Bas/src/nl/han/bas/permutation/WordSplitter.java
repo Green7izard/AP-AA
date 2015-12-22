@@ -1,4 +1,4 @@
-package nl.han.bas;
+package nl.han.bas.permutation;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
