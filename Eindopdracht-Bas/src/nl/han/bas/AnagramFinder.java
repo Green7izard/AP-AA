@@ -1,6 +1,6 @@
 package nl.han.bas;
 
-import nl.han.bas.permutation.BruteForceRecursionPermutation;
+import nl.han.bas.permutation.BacktrackRecursionPermutation;
 import nl.han.bas.permutation.StringPermutation;
 
 import java.util.Iterator;
@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Created by Bas on 22-12-2015.
+ * @Author Bas van Summeren<BasVanSummeren@home.nl> 479334
  */
 public class AnagramFinder
 {
@@ -33,7 +33,7 @@ public class AnagramFinder
      */
     public AnagramFinder()
     {
-        this(new BruteForceRecursionPermutation());
+        this(new BacktrackRecursionPermutation());
     }
 
 

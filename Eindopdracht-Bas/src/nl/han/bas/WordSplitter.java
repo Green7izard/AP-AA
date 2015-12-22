@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 /**
  * Class with a utility function to split sentences into words!
- * Created by Bas on 22-12-2015.
+ * @Author Bas van Summeren<BasVanSummeren@home.nl> 479334
  */
 public class WordSplitter
 {
