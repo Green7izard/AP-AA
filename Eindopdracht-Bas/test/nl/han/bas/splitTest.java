@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Bas on 22-12-2015.
  */
-public class splitTest {
+public class SplitTest {
 
     @Test
     public void testNull(){

@@ -23,7 +23,7 @@ public class WordSplitter {
      * Split a text into words.
      * Every word can only occur ONCE!
      * prevents doubles!
-     * Ignores special signs like dots and exclemation marks
+     * Ignores special signs like dots and exclamation marks
      *
      * @param input The text as a input
      * @return a Set of words
