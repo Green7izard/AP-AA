@@ -44,7 +44,7 @@ public class AnagramFinder
      */
     public Set<String> getWords(String input)
     {
-        return WordSplitter.splitText(input);
+        return WordSplitter.splitTextUnsorted(input);
     }
 
     /**

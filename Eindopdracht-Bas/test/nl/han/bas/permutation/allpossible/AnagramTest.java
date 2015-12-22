@@ -1,8 +1,6 @@
 package nl.han.bas.permutation.allpossible;
 
 import nl.han.bas.permutation.WordSplitter;
-import nl.han.bas.permutation.allpossible.AnagramFinder;
-import nl.han.bas.permutation.allpossible.BacktrackRecursionPermutation;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,13 +17,13 @@ public class AnagramTest
     @Test
     public void getWordsComparisonTest()
     {
-        Assert.assertEquals(WordSplitter.splitText("Ik heb honger. Ik ga Eten"), new AnagramFinder().getWords("Ik heb honger. Ik ga Eten"));
+        Assert.assertEquals(WordSplitter.splitTextUnsorted("Ik heb honger. Ik ga Eten"), new AnagramFinder().getWords("Ik heb honger. Ik ga Eten"));
     }
 
     @Test
     public void getAnagramsComparisonTest()
     {
-        assertEquals(new AnagramFinder(new BacktrackRecursionPermutation()).getAnagrams(WordSplitter.splitText("Ik heb honger. Ik ga Eten")), new AnagramFinder(new BacktrackRecursionPermutation()).getAnagrams("Ik heb honger. Ik ga Eten"));
+        assertEquals(new AnagramFinder(new BacktrackRecursionPermutation()).getAnagrams(WordSplitter.splitTextUnsorted("Ik heb honger. Ik ga Eten")), new AnagramFinder(new BacktrackRecursionPermutation()).getAnagrams("Ik heb honger. Ik ga Eten"));
     }
 
 

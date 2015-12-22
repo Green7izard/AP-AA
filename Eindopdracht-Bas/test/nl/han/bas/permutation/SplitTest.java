@@ -5,7 +5,8 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.Set;
 
-import static nl.han.bas.permutation.WordSplitter.splitText;
+import static nl.han.bas.permutation.WordSplitter.splitTextLengthSorted;
+import static nl.han.bas.permutation.WordSplitter.splitTextUnsorted;
 import static org.junit.Assert.*;
 
 /**
@@ -17,7 +18,7 @@ public class SplitTest
     @Test
     public void testNull()
     {
-        Set<String> result = splitText(null);
+        Set<String> result = splitTextUnsorted(null);
         assertNotNull(result);
         assertEquals(0, result.size());
     }
@@ -25,7 +26,7 @@ public class SplitTest
     @Test
     public void testEmpty()
     {
-        Set<String> result = splitText("");
+        Set<String> result = splitTextUnsorted("");
         assertNotNull(result);
         assertEquals(0, result.size());
     }
@@ -33,7 +34,7 @@ public class SplitTest
     @Test
     public void testBanaan()
     {
-        Set<String> result = splitText("Banaan");
+        Set<String> result = splitTextUnsorted("Banaan");
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("banaan", result.iterator().next());
@@ -42,7 +43,7 @@ public class SplitTest
     @Test
     public void testDoubleBanaan()
     {
-        Set<String> result = splitText("Banaan banaan");
+        Set<String> result = splitTextUnsorted("Banaan banaan");
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("banaan", result.iterator().next());
@@ -51,7 +52,7 @@ public class SplitTest
     @Test
     public void testBanaanAndSign()
     {
-        Set<String> result = splitText("Banaan &%");
+        Set<String> result = splitTextUnsorted("Banaan &%");
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("banaan", result.iterator().next());
@@ -60,7 +61,7 @@ public class SplitTest
     @Test
     public void testBanaanSign()
     {
-        Set<String> result = splitText("Banaan&%");
+        Set<String> result = splitTextUnsorted("Banaan&%");
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("banaan", result.iterator().next());
@@ -69,7 +70,7 @@ public class SplitTest
     @Test
     public void testSentence()
     {
-        Set<String> result = splitText("Een aap at een banaan. De banaan was lekker!");
+        Set<String> result = splitTextUnsorted("Een aap at een banaan. De banaan was lekker!");
         assertNotNull(result);
         assertEquals(7, result.size());
         Iterator<String> it = result.iterator();
@@ -88,7 +89,7 @@ public class SplitTest
     @Test
     public void testIteratorRemoveCurrent()
     {
-        Set<String> result = splitText("test code");
+        Set<String> result = splitTextUnsorted("test code");
         assertNotNull(result);
         assertEquals(2, result.size());
         Iterator<String> it = result.iterator();
@@ -97,6 +98,23 @@ public class SplitTest
         result.remove(current);
 
         assertTrue(it.hasNext());
+
+    }
+
+
+    @Test
+    public void testSplitLength()
+    {
+        Set<String> result = splitTextLengthSorted("Een de het friet baan ik!");
+        assertNotNull(result);
+        assertEquals(6, result.size());
+        Iterator<String> it = result.iterator();
+        assertEquals("de", it.next());
+        assertEquals("ik", it.next());
+        assertEquals("een", it.next());
+        assertEquals("het", it.next());
+        assertEquals("baan", it.next());
+        assertEquals("friet", it.next());
 
     }
 }
