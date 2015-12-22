@@ -33,9 +33,9 @@ public class AVLTest
             assertNull(tree.insert(i, i + ""));
             tree = tree.getRoot();
             int balanceFactor = tree.balanceFactor();
-            assertTrue("BalanceFactor: "+balanceFactor+ " after inserting: "+i, -2<balanceFactor && balanceFactor<2);
+            assertTrue("BalanceFactor: " + balanceFactor + " after inserting: " + i, - 2 < balanceFactor && balanceFactor < 2);
         }
-        assertEquals(number+1, tree.getRoot().size());
+        assertEquals(number + 1, tree.getRoot().size());
 
         for (int i = 0; i <= number; i++)
         {
@@ -58,7 +58,7 @@ public class AVLTest
             int balanceFactor = tree.balanceFactor();
             assertTrue("BalanceFactor: " + balanceFactor + " after inserting: " + i, - 2 < balanceFactor && balanceFactor < 2);
         }
-        assertEquals(number+1, tree.getRoot().size());
+        assertEquals(number + 1, tree.getRoot().size());
 
         for (int i = 0; i <= number; i++)
         {
