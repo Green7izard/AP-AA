@@ -10,7 +10,7 @@ import java.util.Set;
  * Opdracht 10: Anagrammen
  * <p>
  * Anagrammen zijn woorden die uit dezelfde letters zijn samengesteld.
- * Voorbeeld: ‘een’, ‘nee’, en ‘ene’ zijn anagrammen van elkaar.
+ * Voorbeeld: 'een', 'nee', en 'ene' zijn anagrammen van elkaar.
  * Schrijf een algoritme dat alle anagrammen vindt die voorkomen in een stuk tekst, die je invoert.
  * Het verschil tussen hoofd- en kleine letters mag je negeren.
  * Elk woord komt maar een keer voor in zijn lijst van anagrammen.
@@ -76,16 +76,36 @@ public class Main
     private static void inline(Scanner scan)
     {
         nl.han.bas.permutation.inline.AnagramFinder finder = new nl.han.bas.permutation.inline.AnagramFinder();
-        System.out.println("Anagram Finder By Bas van Summeren:\n Type \"quit\" to shut down. Type anything else to get all anagrams within the sentance!");
+        System.out.println("Anagram Finder By Bas van Summeren:\n"+"Type \"quit\" to shut down. \n"+
+                                   "Type \"unique\" to toggle getting unique anagrams.\n"+
+                                   "Type anything else to get all anagrams within the sentance!");
+        boolean unique= true;
         while (true)
         {
             String input = scan.nextLine();
             if (input.equals("quit"))
             {
                 break;
-            } else
+            } else if(input.equals("unique"))
             {
-                Map<String, Set<String>> anagrams = finder.getAnagrams(input);
+                unique=!unique;
+                if(unique)
+                {
+                    System.out.println("Now getting unique Anagrams!");
+                }
+                else
+                {
+                    System.out.println("Now getting ALL Anagrams!");
+                }
+            }else
+            {
+                Map<String, Set<String>> anagrams;
+                if(unique)
+                {
+                    anagrams = finder.getUniqueAnagrams(input);
+                }else{
+                    anagrams = finder.getAnagrams(input);
+                }
                 System.out.println("Anagrams for the words in: \"" + input + "\"\n");
                 for (Map.Entry<String, Set<String>> entry : anagrams.entrySet())
                 {
