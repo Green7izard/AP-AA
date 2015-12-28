@@ -1,10 +1,6 @@
 package nl.han.bas.permutation;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -74,68 +70,5 @@ public class WordSplitter
         }
         return set;
     }
-
-    public static SortedSet<String> splitTextLengthSorted(String input)
-    {
-        return splitTextSorted(input, new SortByLength());
-    }
-
-    private static class SortByLength implements Comparator<String>
-    {
-
-        @Override
-        public int compare(String o1, String o2)
-        {
-            int deltaLength = o1.length() - o2.length();
-            if (deltaLength == 0)
-            {
-                return o1.compareTo(o2);
-            }
-            return deltaLength;
-        }
-
-        @Override
-        public Comparator<String> reversed()
-        {
-            return null;
-        }
-
-        @Override
-        public Comparator<String> thenComparing(Comparator<? super String> other)
-        {
-            return null;
-        }
-
-        @Override
-        public <U> Comparator<String> thenComparing(Function<? super String, ? extends U> keyExtractor, Comparator<? super U> keyComparator)
-        {
-            return null;
-        }
-
-        @Override
-        public <U extends Comparable<? super U>> Comparator<String> thenComparing(Function<? super String, ? extends U> keyExtractor)
-        {
-            return null;
-        }
-
-        @Override
-        public Comparator<String> thenComparingInt(ToIntFunction<? super String> keyExtractor)
-        {
-            return null;
-        }
-
-        @Override
-        public Comparator<String> thenComparingLong(ToLongFunction<? super String> keyExtractor)
-        {
-            return null;
-        }
-
-        @Override
-        public Comparator<String> thenComparingDouble(ToDoubleFunction<? super String> keyExtractor)
-        {
-            return null;
-        }
-    }
-
 
 }

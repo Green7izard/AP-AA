@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.Iterator;
 import java.util.Set;
 
-import static nl.han.bas.permutation.WordSplitter.splitTextLengthSorted;
 import static nl.han.bas.permutation.WordSplitter.splitTextUnsorted;
 import static org.junit.Assert.*;
 
@@ -98,23 +97,6 @@ public class SplitTest
         result.remove(current);
 
         assertTrue(it.hasNext());
-
-    }
-
-
-    @Test
-    public void testSplitLength()
-    {
-        Set<String> result = splitTextLengthSorted("Een de het friet baan ik!");
-        assertNotNull(result);
-        assertEquals(6, result.size());
-        Iterator<String> it = result.iterator();
-        assertEquals("de", it.next());
-        assertEquals("ik", it.next());
-        assertEquals("een", it.next());
-        assertEquals("het", it.next());
-        assertEquals("baan", it.next());
-        assertEquals("friet", it.next());
 
     }
 }
