@@ -1,9 +1,9 @@
-import java.security.KeyStore;
+import java.util.Map;
 
 /**
  * Created by Bas on 25-11-2015.
  */
-public class KeyValuePair<K extends Comparable, V> implements Comparable<Comparable>
+public class KeyValuePair<K extends Comparable, V> implements Comparable<Comparable>, Map.Entry<K, V>
 {
     //The key, should never be replaced
     private final K key;
