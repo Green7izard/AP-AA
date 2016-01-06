@@ -71,19 +71,6 @@ public class AVLNode<K extends Comparable, V>
 
     public void rebalance()
     {
-        AVLNode<K, V> current = this;
-        while (current != null)
-        {
-            int balanceFactor = current.balanceFactor();
-            if (balanceFactor > 1)
-            {
-                current.rotateRight();
-            } else if (balanceFactor < - 1)
-            {
-                current.rotateLeft();
-            }
-            current = current.parent;
-        }
         while (getRoot().topDownBalance()) ;
     }
 
