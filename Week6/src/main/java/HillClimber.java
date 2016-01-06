@@ -17,7 +17,7 @@ public class HillClimber
 
     private List<RightDown> generateRandomSolution(Board board)
     {
-        List<RightDown> solution = new ArrayList<>(board.getHeight() + board.getWidth());
+        List<RightDown> solution = new ArrayList<RightDown>(board.getHeight() + board.getWidth());
         int remainingR = board.getWidth() - 1;
         int remainingD = board.getHeight() - 1;
         Random random = new Random();
