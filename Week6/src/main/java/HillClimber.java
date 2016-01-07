@@ -47,27 +47,46 @@ public class HillClimber
         return solution;
     }
 
-    public List<RightDown> solveBoard(int iteration)
+    public List<RightDown> solveBoard(int iterations)
     {
-        List<RightDown> currentSolution = generateRandomSolution(board);
-        System.out.println("Starting with: " + currentSolution + " with a length of: " + board.getLengthForSequence(currentSolution));
-        for (int it = 0; it < iteration; it++)
+        List<RightDown> currentBest = null;
+        for (int counter = 0; counter < iterations; counter++)
         {
-            for (int j = 0; j < currentSolution.size() - 1; j++)
+            List<RightDown> currentSolution = generateRandomSolution(board);
+            System.out.println("New solution with: " + currentSolution + " with a length of: " + board.getLengthForSequence(currentSolution));
+            boolean solved = false;
+            int i = 0;
+            while (! solved)
             {
-                if (currentSolution.get(j) != currentSolution.get(j + 1))
+                i++;
+                System.out.println("Iteration: " + i);
+                solved = true;
+                for (int j = 0; j < currentSolution.size() - 1; j++)
                 {
-                    List<RightDown> switchSolution = new ArrayList<RightDown>(currentSolution);
-                    Collections.swap(switchSolution, j, j + 1);
-                    if (board.getLengthForSequence(switchSolution) < board.getLengthForSequence(currentSolution))
+                    if (currentSolution.get(j) != currentSolution.get(j + 1))
                     {
-                        currentSolution = switchSolution;
-                        System.out.println("New Solution:  " + currentSolution + " with a length of: " + board.getLengthForSequence(currentSolution));
+                        List<RightDown> switchSolution = new ArrayList<RightDown>(currentSolution);
+                        Collections.swap(switchSolution, j, j + 1);
+                        if (board.getLengthForSequence(switchSolution) < board.getLengthForSequence(currentSolution))
+                        {
+                            currentSolution = switchSolution;
+                            System.out.println("New Solution:  " + currentSolution + " with a length of: " + board.getLengthForSequence(currentSolution));
+                            solved = false;
+                        }
                     }
                 }
             }
+            System.out.println("Found optimal in: " + i + " Iterations");
+            if (currentBest == null || board.getLengthForSequence(currentSolution) < board.getLengthForSequence(currentBest))
+            {
+                currentBest = currentSolution;
+                System.out.println("Found new Best!");
+            }
+            System.out.println();
+
         }
-        return currentSolution;
+        return currentBest;
+
     }
 
 

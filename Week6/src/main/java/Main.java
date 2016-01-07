@@ -1,8 +1,11 @@
+import java.util.List;
+
 public class Main
 {
 
     public static void main(String[] args)
     {
+        List<RightDown> solution;
         int testBoard[][] =
                 {
                         {0, 3, 5, 7, 8, 7},
@@ -16,14 +19,18 @@ public class Main
         Board tester = new Board(testBoard);
         HillClimber climber = new HillClimber(tester);
         tester.printBoard();
-        climber.solveBoard(40);
+        solution = climber.solveBoard(5);
+        System.out.println("Best is: " + solution);
+        System.out.println("It has a length of: " + tester.getLengthForSequence(solution));
 
-        System.out.println("\n---------------------------------\n");
+        System.out.println("\n------------------------------------------------------------------------\n");
 
         Board board = new Board(8, 8, 10);
         board.printBoard();
         HillClimber hillClimber = new HillClimber(board);
-        hillClimber.solveBoard(10);
+        solution = hillClimber.solveBoard(5);
+        System.out.println("Best is: " + solution);
+        System.out.println("It has a length of: " + board.getLengthForSequence(solution));
     }
 
 

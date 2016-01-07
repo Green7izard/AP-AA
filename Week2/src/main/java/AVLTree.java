@@ -61,8 +61,20 @@ public class AVLTree<K extends Comparable, V> implements Map<K, V>
     @Override
     public boolean containsValue(Object value)
     {
-        //TODO
-        return false;
+        if(isEmpty())
+        {
+            return false;
+        }
+        else {
+            try
+            {
+                return root.getKeyValue((K) value) != null;
+            }
+            catch(ClassCastException e)
+            {
+                return false;
+            }
+        }
     }
 
     @Override
