@@ -67,7 +67,7 @@ public class BackTracking
                     {
                         columnI = size -2;
                         rowI -= 1;
-                        if(rowI < 0)
+                        if(rowI < -1)
                         {
                             break;
                         }
