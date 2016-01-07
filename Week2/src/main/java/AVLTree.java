@@ -220,9 +220,9 @@ public class AVLTree<K extends Comparable, V> implements Map<K, V>
         }
         retVal.append("- ");
         retVal.append(pair.getKey());
-        retVal.append(" : ");
+        retVal.append(" : \"");
         retVal.append(pair.getValue());
-        retVal.append("\n");
+        retVal.append("\"\n");
         if (node.leftValue != null)
         {
             retVal.append(xmlFormat(node.leftValue, level + 1));

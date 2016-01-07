@@ -8,6 +8,11 @@ public class Main
         Scanner s = new Scanner(System.in);
         AVLTree<Integer, String> tree = new AVLTree<Integer, String>();
         print("Starting the AVL Tree");
+        print("Type quit to quit");
+        print("Type print to print");
+        print("Type reset to clear the tree");
+        print("Type clear to print loads of new lines");
+        print("Type a number to add a number");
         while (true)
         {
             String value = s.nextLine().toLowerCase();
@@ -47,7 +52,7 @@ public class Main
 
     private static void insertValue(AVLTree<Integer, String> target, int number)
     {
-        String insert = EnglishNumberToWords.convert(number);
+        String insert = ""+number;
         String replaced = target.put(number, insert);
         print("Inserted: \"" + insert + "\" at location: " + number);
         if (replaced != null)
