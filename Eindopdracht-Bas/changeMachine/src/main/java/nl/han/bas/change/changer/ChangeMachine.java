@@ -33,13 +33,9 @@ public class ChangeMachine implements ChangeGiver
         Map<Integer, Integer> returnCoins = new LinkedHashMap<Integer, Integer>();
         for (Integer currentValue : currentCurrency.getCoins())
         {
-            int numberOfCoins = 0;
-            while (amount >= currentValue)
-            {
-                amount -= currentValue;
-                numberOfCoins++;
-            }
+            int numberOfCoins = amount/((int)currentValue);
             returnCoins.put(currentValue, numberOfCoins);
+            amount-=numberOfCoins*((int)currentValue);
         }
         if (amount > 0)
         {
