@@ -23,6 +23,7 @@ public class BackTracking
         {
             if(abort)
             {
+                System.out.println("There are no more solutions.");
                 break;
             }
             for (int columnI = 0; columnI < size; columnI++)
@@ -53,7 +54,7 @@ public class BackTracking
                 {
                     if(!bord.rowContainsQueen(rowI))
                     {
-                        if(rowI == -1)
+                        if(rowI == 0)
                         {
                             abort = true;
                         }
