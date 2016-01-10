@@ -76,7 +76,7 @@ public class Board
             return board[x][y];
         } catch (Exception e)
         {
-            return Integer.MAX_VALUE;
+            return Integer.MAX_VALUE/5;
         }
     }
 

@@ -25,7 +25,7 @@ public class Main
 
         System.out.println("\n------------------------------------------------------------------------\n");
 
-        Board board = new Board(8, 8, 10);
+        Board board = new Board(8, 8, 8);
         board.printBoard();
         HillClimber hillClimber = new HillClimber(board);
         solution = hillClimber.solveBoard(5);
