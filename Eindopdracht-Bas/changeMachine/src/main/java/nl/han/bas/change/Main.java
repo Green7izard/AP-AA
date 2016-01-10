@@ -31,7 +31,7 @@ public class Main
 
     public Main()
     {
-        machine = new ChangeMachine(new Euro(true));
+        machine = new ChangeMachine(new Euro(false));
         scan = new Scanner(System.in);
     }
 
