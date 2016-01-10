@@ -30,6 +30,11 @@ public class ChangeMachine implements ChangeGiver
 
     public Change getChange(int amount)
     {
+        return getChange(amount, true);
+    }
+
+    public Change getChange(int amount, boolean round)
+    {
         Map<Integer, Integer> returnCoins = new LinkedHashMap<Integer, Integer>();
         for (Integer currentValue : currentCurrency.getCoins())
         {
@@ -43,7 +48,18 @@ public class ChangeMachine implements ChangeGiver
         }
         if (amount > 0)
         {
-            returnCoins.put(- 1, amount);
+            if(round)
+            {
+                int lastValue = currentCurrency.getCoins().last();
+                if(amount>lastValue/2)
+                {
+                    returnCoins.put(lastValue, returnCoins.get(lastValue)+1);
+                }
+            }
+            else
+            {
+                returnCoins.put(- 1, amount);
+            }
         }
         return new Change(currentCurrency, returnCoins);
     }
