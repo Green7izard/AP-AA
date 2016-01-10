@@ -39,6 +39,10 @@ public class WordSplitter
         return set;
     }
 
+    /**
+     * Splits the text into words and puts it into the set
+     * @param input
+     */
     private static void splitText(Set<String> set, String input)
     {
         Pattern p = Pattern.compile("[\\w']+");
@@ -49,17 +53,28 @@ public class WordSplitter
         }
     }
 
+    /**
+     * Split the text into words and sorts them based on the natural order
+     * @param input the text
+     * @return a sorted set of words
+     */
     public static SortedSet<String> splitTextSorted(String input)
     {
         return splitTextSorted(input, null);
     }
 
+    /**
+     * Split the text into words and sorts them based on the Comparator
+     * @param input the text
+     * @param comp the compartor
+     * @return a sorted set of words
+     */
     public static SortedSet<String> splitTextSorted(String input, Comparator<String> comp)
     {
         SortedSet<String> set;
         if (comp != null)
         {
-            set = new TreeSet<String>(comp);
+            set = new TreeSet<String>();
         } else
         {
             set = new TreeSet<String>(comp);
