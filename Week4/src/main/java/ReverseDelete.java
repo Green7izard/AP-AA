@@ -67,22 +67,13 @@ public class ReverseDelete
 
     boolean safeToDelete(Edge toRemove)
     {
-        if (toRemove.getFirst().amountOfEdges() <= 1 || toRemove.getSecond().amountOfEdges() <= 1)
-        {
+        if (toRemove.getFirst().amountOfEdges() <= 1 ||
+                toRemove.getSecond().amountOfEdges() <= 1) {
             return false;
-        } else
-        {
-            for (Edge current : edges)
-            {
-                if (! current.equals(toRemove) && hasPathWithout(toRemove.getFirst(), toRemove.getSecond(), toRemove))
-                {
-                    return true;
-                }
-            }
-            return false;
-
         }
+       return hasPathWithout(toRemove.getFirst(), toRemove.getSecond(), toRemove);
     }
+
 
     boolean isSolved()
     {
@@ -117,8 +108,8 @@ public class ReverseDelete
                 {
                     return true;
                 }
-                List<Edge> edges = new ArrayList<Edge>(toIgnore);
-                edges.add(edge);
+                List<Edge>newIgnore = new ArrayList<Edge>(toIgnore);
+                newIgnore.add(edge);
                 Node newNode;
                 if (edge.getFirst().equals(start))
                 {
@@ -127,7 +118,7 @@ public class ReverseDelete
                 {
                     newNode = edge.getFirst();
                 }
-                if (hasPathWithout(newNode, end, edges))
+                if (hasPathWithout(newNode, end, newIgnore))
                 {
                     return true;
                 }
@@ -154,12 +145,12 @@ public class ReverseDelete
     {
         if (lastProcessed > 0)
         {
-            Edge removeable = edges.get(lastProcessed);
-            if (safeToDelete(removeable))
+            Edge removable = edges.get(lastProcessed);
+            if (safeToDelete(removable))
             {
-                edges.remove(removeable);
-                removeable.getFirst().removeEdge(removeable);
-                removeable.getSecond().removeEdge(removeable);
+                edges.remove(removable);
+                removable.getFirst().removeEdge(removable);
+                removable.getSecond().removeEdge(removable);
             }
             lastProcessed--;
         }
@@ -168,7 +159,7 @@ public class ReverseDelete
 
     void autoComplete()
     {
-        while (lastProcessed >= 0)
+        while (lastProcessed > 0)
         {
             takeStep();
         }

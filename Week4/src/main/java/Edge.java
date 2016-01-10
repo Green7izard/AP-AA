@@ -40,7 +40,18 @@ public class Edge implements Comparable<Edge>
     @Override
     public int compareTo(Edge o)
     {
-        return (int) Math.round(distance - o.distance);
+        double diff = distance - o.distance;
+        if(diff>0)
+        {
+            return Math.max(1, (int) Math.round(diff));
+        } else if(diff<0)
+        {
+            return Math.min(-1, (int)Math.round(diff));
+        }
+        else{
+            return 0;
+        }
+
     }
 
     public boolean equals(Object other)
