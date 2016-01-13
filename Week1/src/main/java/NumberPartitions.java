@@ -4,7 +4,7 @@ import java.util.List;
 public class NumberPartitions
 {
 
-    private static final int NUMBER = 8;
+    private static final int NUMBER = 7;
 
     public static void main(String[] args)
     {
